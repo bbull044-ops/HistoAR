@@ -1,10 +1,16 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-// Client Supabase server-side saja (service_role, bypass RLS).
-// JANGAN diimpor dari komponen client — env service_role tidak boleh
-// bocor ke browser. Semua akses DB lewat server routes / serverFn.
+// Client Supabase server-side saja.
+// JANGAN diimpor dari komponen client — credential server tidak boleh bocor ke browser.
 
 let cached: SupabaseClient | undefined;
+
+function normalizeSupabaseUrl(rawUrl: string): string {
+  // createClient() sudah otomatis menambahkan /rest/v1 untuk PostgREST.
+  // Jika env berisi URL REST lengkap (.../rest/v1), jangan sampai menjadi
+  // /rest/v1/rest/v1/... (PGRST125: Invalid path specified in request URL).
+  return rawUrl.trim().replace(/\/+$/, "").replace(/\/rest\/v1$/i, "");
+}
 
 export function supabaseMissingEnv(): string[] {
   const missing: string[] = [];
@@ -16,14 +22,16 @@ export function supabaseMissingEnv(): string[] {
 
 export function getSupabaseServer(): SupabaseClient {
   if (cached) return cached;
-  const url = process.env.SUPABASE_URL;
+  const rawUrl = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
+  if (!rawUrl || !key) {
     throw new Error(
       `Supabase belum dikonfigurasi (missing: ${supabaseMissingEnv().join(", ")}). ` +
         "Isi di .env.local dan Vercel Environment Variables.",
     );
   }
+
+  const url = normalizeSupabaseUrl(rawUrl);
   cached = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
@@ -60,7 +68,8 @@ export async function saveChatPair(rows: ChatLogRow[]): Promise<void> {
   }
 }
 
-/** Cek koneksi ringan untuk /api/health (select 1 baris, tanpa bocorkan secret). */ export async function checkSupabase(): Promise<{
+/** Cek koneksi ringan untuk /api/health (select 1 baris, tanpa bocorkan secret). */
+export async function checkSupabase(): Promise<{
   ok: boolean;
   detail: string;
 }> {
