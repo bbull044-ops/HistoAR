@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { checkSupabase, supabaseMissingEnv } from "@/lib/supabase-server";
 
-// Diagnostik tanpa bocorkan secret: bedakan "key belum set" vs "Kie down".
-// Buka /api/health di browser setelah deploy.
+// Diagnostik tanpa bocorkan secret: bedakan "key belum set" vs "Kie down"
+// vs "Supabase belum konek". Buka /api/health di browser setelah deploy.
 export const Route = createFileRoute("/api/health")({
   server: {
     handlers: {
@@ -11,11 +12,17 @@ export const Route = createFileRoute("/api/health")({
           process.env.UPSTASH_REDIS_REST_URL &&
           process.env.UPSTASH_REDIS_REST_TOKEN,
         );
+        const missingSupabase = supabaseMissingEnv();
+        const supabase =
+          missingSupabase.length > 0
+            ? `off (missing:${missingSupabase.join(",")})`
+            : (await checkSupabase()).detail;
         return Response.json({
           ok: true,
           hasKieKey,
           kieModel: process.env.KIE_MODEL || "deepseek-v4-1-flash",
           redis: hasRedis ? "on" : "off (fail-open)",
+          supabase,
         });
       },
     },

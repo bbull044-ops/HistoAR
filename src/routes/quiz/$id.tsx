@@ -4,10 +4,13 @@ import materiData from "@/data/materi.json";
 import quizData from "@/data/quiz.json";
 import type { MateriData, QuizData } from "@/lib/histoar-types";
 import { markMateriComplete } from "@/lib/progress";
+import { getStudentId } from "@/lib/student-id";
+import { sendQuizAttempt } from "@/lib/quiz-log";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { FieldTexture } from "@/components/field-texture";
 import { CoreSample } from "@/components/histoar/CoreSample";
+import { StudentForm } from "@/components/histoar/StudentForm";
 import { QuizPanel } from "@/components/histoar/QuizPanel";
 import { Chatbot } from "@/components/histoar/Chatbot";
 
@@ -22,17 +25,26 @@ export const Route = createFileRoute("/quiz/$id")({
     return { materi, questions };
   },
   head: ({ loaderData }) => ({
-    meta: [{ title: `Quiz & HistoAI · ${loaderData?.materi.judul ?? ""} · HistoAR` }],
+    meta: [
+      { title: `Quiz & HistoAI · ${loaderData?.materi.judul ?? ""} · HistoAR` },
+    ],
   }),
   component: QuizPage,
 });
 
 function QuizPage() {
   const { materi, questions } = Route.useLoaderData();
-  const [result, setResult] = useState<{ score: number; total: number } | null>(null);
+  const [result, setResult] = useState<{ score: number; total: number } | null>(
+    null,
+  );
   const [unlocked, setUnlocked] = useState(false);
+  const [studentId, setStudentId] = useState<string | null>(() =>
+    getStudentId(),
+  );
 
-  const nextMateri = [...materiList].sort((a, b) => a.urutan - b.urutan).find((m) => m.urutan === materi.urutan + 1);
+  const nextMateri = [...materiList]
+    .sort((a, b) => a.urutan - b.urutan)
+    .find((m) => m.urutan === materi.urutan + 1);
 
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -43,16 +55,32 @@ function QuizPage() {
           <CoreSample currentMateriId={materi.id} />
         </div>
 
-        {!result && (
+        {!result && !studentId && <StudentForm onRegistered={setStudentId} />}
+
+        {!result && studentId && (
           <QuizPanel
             questions={questions}
-            onFinish={(score, total) => setResult({ score, total })}
+            onFinish={(score, total, answers, startedAt) => {
+              setResult({ score, total });
+              // Fire-and-forget: hasil tampil duluan, pengiriman menyusul
+              // (retry + antrean offline di dalam sendQuizAttempt).
+              void sendQuizAttempt({
+                student_id: studentId,
+                materi_id: materi.id,
+                score,
+                total,
+                answers,
+                started_at: startedAt,
+              });
+            }}
           />
         )}
 
         {result && (
           <div className="mx-auto w-full max-w-2xl rounded-3xl border border-border bg-card p-6 shadow-[0_20px_60px_-30px_oklch(0_0_0/0.25)] sm:p-8">
-            <span className="catalog-label text-accent-foreground">Hasil Kuis</span>
+            <span className="catalog-label text-accent-foreground">
+              Hasil Kuis
+            </span>
             <p className="mt-4 text-sm text-muted-foreground">Skor Kamu</p>
             <div className="font-display text-5xl font-medium text-primary">
               {result.score}/{result.total}
@@ -93,7 +121,8 @@ function QuizPage() {
                     Lanjut ke Materi Berikutnya →
                   </span>
                   <p className="mt-2 text-xs text-muted-foreground">
-                    Chat dulu dengan HistoAI minimal satu kali untuk membuka materi berikutnya.
+                    Chat dulu dengan HistoAI minimal satu kali untuk membuka
+                    materi berikutnya.
                   </p>
                 </>
               )}

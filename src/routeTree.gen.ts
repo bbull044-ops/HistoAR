@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MateriIndexRouteImport } from './routes/materi/index'
 import { Route as QuizIdRouteImport } from './routes/quiz/$id'
+import { Route as ApiStudentsRouteImport } from './routes/api/students'
+import { Route as ApiQuizAttemptsRouteImport } from './routes/api/quiz-attempts'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as MateriIdIndexRouteImport } from './routes/materi/$id/index'
@@ -31,6 +33,16 @@ const MateriIndexRoute = MateriIndexRouteImport.update({
 const QuizIdRoute = QuizIdRouteImport.update({
   id: '/quiz/$id',
   path: '/quiz/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStudentsRoute = ApiStudentsRouteImport.update({
+  id: '/api/students',
+  path: '/api/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQuizAttemptsRoute = ApiQuizAttemptsRouteImport.update({
+  id: '/api/quiz-attempts',
+  path: '/api/quiz-attempts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
@@ -63,6 +75,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
+  '/api/students': typeof ApiStudentsRoute
   '/quiz/$id': typeof QuizIdRoute
   '/materi/': typeof MateriIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
@@ -73,6 +87,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
+  '/api/students': typeof ApiStudentsRoute
   '/quiz/$id': typeof QuizIdRoute
   '/materi': typeof MateriIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
@@ -84,6 +100,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/api/chat': typeof ApiChatRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
+  '/api/students': typeof ApiStudentsRoute
   '/quiz/$id': typeof QuizIdRoute
   '/materi/': typeof MateriIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
@@ -96,6 +114,8 @@ export interface FileRouteTypes {
     | '/'
     | '/api/chat'
     | '/api/health'
+    | '/api/quiz-attempts'
+    | '/api/students'
     | '/quiz/$id'
     | '/materi/'
     | '/materi/$id/ar'
@@ -106,6 +126,8 @@ export interface FileRouteTypes {
     | '/'
     | '/api/chat'
     | '/api/health'
+    | '/api/quiz-attempts'
+    | '/api/students'
     | '/quiz/$id'
     | '/materi'
     | '/materi/$id/ar'
@@ -116,6 +138,8 @@ export interface FileRouteTypes {
     | '/'
     | '/api/chat'
     | '/api/health'
+    | '/api/quiz-attempts'
+    | '/api/students'
     | '/quiz/$id'
     | '/materi/'
     | '/materi/$id/ar'
@@ -127,6 +151,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiHealthRoute: typeof ApiHealthRoute
+  ApiQuizAttemptsRoute: typeof ApiQuizAttemptsRoute
+  ApiStudentsRoute: typeof ApiStudentsRoute
   QuizIdRoute: typeof QuizIdRoute
   MateriIndexRoute: typeof MateriIndexRoute
   MateriIdArRoute: typeof MateriIdArRoute
@@ -155,6 +181,20 @@ declare module '@tanstack/react-router' {
       path: '/quiz/$id'
       fullPath: '/quiz/$id'
       preLoaderRoute: typeof QuizIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/students': {
+      id: '/api/students'
+      path: '/api/students'
+      fullPath: '/api/students'
+      preLoaderRoute: typeof ApiStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/quiz-attempts': {
+      id: '/api/quiz-attempts'
+      path: '/api/quiz-attempts'
+      fullPath: '/api/quiz-attempts'
+      preLoaderRoute: typeof ApiQuizAttemptsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/health': {
@@ -199,6 +239,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiChatRoute: ApiChatRoute,
   ApiHealthRoute: ApiHealthRoute,
+  ApiQuizAttemptsRoute: ApiQuizAttemptsRoute,
+  ApiStudentsRoute: ApiStudentsRoute,
   QuizIdRoute: QuizIdRoute,
   MateriIndexRoute: MateriIndexRoute,
   MateriIdArRoute: MateriIdArRoute,

@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { renderMarkdownLite } from "@/lib/markdown-lite";
 import type { ChatMessage } from "@/lib/histoar-types";
+import { getStudentId } from "@/lib/student-id";
 import { Send, Sparkles } from "lucide-react";
 
-const SUGGESTIONS = ["Jelasin lebih simpel", "Kasih contoh lain", "Apa yang menarik dari topik ini?"];
+const SUGGESTIONS = [
+  "Jelasin lebih simpel",
+  "Kasih contoh lain",
+  "Apa yang menarik dari topik ini?",
+];
 
 type ApiSource = { title: string; url: string };
 
@@ -76,6 +81,7 @@ export function Chatbot({
           materi_id: materiId,
           pertanyaan: text,
           history,
+          student_id: getStudentId(),
         }),
       });
       const json = await res.json();
@@ -94,7 +100,10 @@ export function Chatbot({
       console.error(err);
       setMessages((m) => {
         const copy = [...m];
-        copy[copy.length - 1] = { role: "bot", text: "Tidak dapat menghubungi server." };
+        copy[copy.length - 1] = {
+          role: "bot",
+          text: "Tidak dapat menghubungi server.",
+        };
         return copy;
       });
     } finally {
@@ -115,7 +124,10 @@ export function Chatbot({
         </div>
       </div>
 
-      <div ref={logRef} className="flex max-h-80 flex-col gap-2.5 overflow-y-auto px-5 py-4">
+      <div
+        ref={logRef}
+        className="flex max-h-80 flex-col gap-2.5 overflow-y-auto px-5 py-4"
+      >
         {messages.map((m, i) => (
           <div
             key={i}
@@ -132,7 +144,9 @@ export function Chatbot({
 
       {sources.length > 0 && (
         <div className="border-t border-border px-5 py-3">
-          <div className="mb-2 text-xs font-medium text-muted-foreground">Sumber</div>
+          <div className="mb-2 text-xs font-medium text-muted-foreground">
+            Sumber
+          </div>
           <div className="flex flex-col gap-1.5">
             {sources.map((source) => (
               <a

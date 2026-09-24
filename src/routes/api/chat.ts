@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import materiData from "@/data/materi.json";
 import type { MateriData } from "@/lib/histoar-types";
 import { checkRateLimit, clientIdFromHeaders } from "@/lib/rate-limit";
+import { saveChatPair } from "@/lib/supabase-server";
 import {
   bersihkanFormat,
   extractReplyText,
@@ -16,6 +17,7 @@ type ChatBody = {
   materi_id?: string;
   pertanyaan?: string;
   history?: Array<{ role: "user" | "assistant"; content: string }>;
+  student_id?: string | null;
 };
 
 type Source = { title: string; url: string };
@@ -180,6 +182,24 @@ export const Route = createFileRoute("/api/chat")({
           const rawReply =
             extractReplyText(json) ?? "Maaf, tidak ada balasan dari AI.";
           const reply = bersihkanFormat(rawReply);
+
+          // Pencatatan penelitian, fire-and-forget (tidak pernah throw).
+          void saveChatPair([
+            {
+              student_id: body.student_id || null,
+              materi_id: body.materi_id || null,
+              sumber: "post_quiz",
+              role: "user",
+              content: pertanyaan,
+            },
+            {
+              student_id: body.student_id || null,
+              materi_id: body.materi_id || null,
+              sumber: "post_quiz",
+              role: "assistant",
+              content: reply,
+            },
+          ]);
 
           return Response.json({
             reply,

@@ -4,6 +4,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import materiData from "@/data/materi.json";
 import type { MateriData } from "@/lib/histoar-types";
 import { checkRateLimit, clientIdFromHeaders } from "@/lib/rate-limit";
+import { saveChatPair } from "@/lib/supabase-server";
 import {
   bersihkanFormat,
   extractReplyText,
@@ -117,7 +118,13 @@ function mapUpstreamError(status: number, json: any): HistoAIResult {
 }
 
 export const askHistoAI = createServerFn({ method: "POST" })
-  .validator((data: { message: string; history?: ChatMessage[] }) => data)
+  .validator(
+    (data: {
+      message: string;
+      history?: ChatMessage[];
+      studentId?: string | null;
+    }) => data,
+  )
   .handler(async ({ data }): Promise<HistoAIResult> => {
     // PENTING: jangan pernah throw dari sini. Semua kegagalan dikembalikan
     // sebagai { ok:false, code } supaya TanStack tidak me-mask jadi
@@ -218,7 +225,27 @@ export const askHistoAI = createServerFn({ method: "POST" })
         return { ok: false, code: "EMPTY_REPLY" };
       }
 
-      return { ok: true, text: bersihkanFormat(rawReply) };
+      const cleaned = bersihkanFormat(rawReply);
+
+      // Pencatatan penelitian, fire-and-forget (tidak pernah throw).
+      void saveChatPair([
+        {
+          student_id: data.studentId || null,
+          materi_id: null,
+          sumber: "landing",
+          role: "user",
+          content: message,
+        },
+        {
+          student_id: data.studentId || null,
+          materi_id: null,
+          sumber: "landing",
+          role: "assistant",
+          content: cleaned,
+        },
+      ]);
+
+      return { ok: true, text: cleaned };
     } catch (err) {
       console.error("askHistoAI unexpected:", err);
       return { ok: false, code: "INTERNAL" };

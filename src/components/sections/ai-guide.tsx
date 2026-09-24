@@ -5,6 +5,7 @@ import { askHistoAI } from "../../lib/histo-ai";
 import { pesanErrorIndonesia } from "../../lib/chat-format";
 import { renderMarkdownLite } from "../../lib/markdown-lite";
 import { captureError } from "../../lib/monitoring";
+import { getStudentId } from "../../lib/student-id";
 
 type Message = { role: "ai" | "user"; text: string; isError?: boolean };
 
@@ -46,7 +47,7 @@ export function AIGuide() {
 
     try {
       const result = await askHistoAI({
-        data: { message: t, history: priorHistory },
+        data: { message: t, history: priorHistory, studentId: getStudentId() },
       });
       if (result.ok) {
         setMessages((m) => [...m, { role: "ai", text: result.text }]);
