@@ -78,9 +78,9 @@ untuk jawaban singkat.
 
 const MAX_HISTORY_MESSAGES = 8;
 
-const API_URL = "https://api.kie.ai/codex/v1/responses";
+const API_URL = "https://api.kie.ai/openai/v1/responses";
 // Bisa dioverride tanpa ubah kode: set KIE_MODEL di .env / Vercel.
-const MODEL = process.env.KIE_MODEL || "gpt-5-6-luna";
+const MODEL = process.env.KIE_MODEL || "deepseek-v4-1-flash";
 
 function clientIdSafe(): string {
   try {
@@ -176,7 +176,11 @@ export const askHistoAI = createServerFn({ method: "POST" })
             model: MODEL,
             stream: false,
             input,
-            reasoning: { effort: "low" },
+            // Thinking DeepSeek default-nya ON. Sengaja tidak dikirim param
+            // reasoning/thinking: enum OFF pastinya tidak tercantum lengkap di
+            // dok Kie yang ditempel (cuma "reasoning.effort dan thinking.type
+            // kerjanya sama"), dan value tebakan berisiko 400. Bentuk respons
+            // (reasoning + message) tetap dibaca oleh extractReplyText.
           }),
         });
       } catch (err) {
@@ -200,7 +204,7 @@ export const askHistoAI = createServerFn({ method: "POST" })
 
       if (!response.ok) {
         console.error(
-          "KIE Luna error:",
+          "KIE error:",
           response.status,
           JSON.stringify(json).slice(0, 2000),
         );

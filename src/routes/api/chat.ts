@@ -9,8 +9,8 @@ import {
   parseKieResponse,
 } from "@/lib/chat-format";
 
-const MODEL = "gpt-5-6-luna";
-const API_URL = "https://api.kie.ai/codex/v1/responses";
+const MODEL = process.env.KIE_MODEL || "deepseek-v4-1-flash";
+const API_URL = "https://api.kie.ai/openai/v1/responses";
 
 type ChatBody = {
   materi_id?: string;
@@ -147,7 +147,9 @@ export const Route = createFileRoute("/api/chat")({
                   content: [{ type: "input_text", text: prompt }],
                 },
               ],
-              tools: [{ type: "web_search" }],
+              // tools web_search dicabut: endpoint DeepSeek
+              // (/openai/v1/responses) tidak mendukungnya, berisiko 400.
+              // Aturan sumber di prompt + extractSources() tetap jalan.
             }),
           });
 

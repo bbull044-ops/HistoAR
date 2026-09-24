@@ -14,7 +14,7 @@ export const Route = createFileRoute("/api/health")({
         return Response.json({
           ok: true,
           hasKieKey,
-          kieModel: process.env.KIE_MODEL || "gpt-5-6-luna",
+          kieModel: process.env.KIE_MODEL || "deepseek-v4-1-flash",
           redis: hasRedis ? "on" : "off (fail-open)",
         });
       },
