@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/health")({
         const supabase = await checkSupabase();
         return Response.json({
           ok: supabase.ok,
-          hasKieKey: Boolean(process.env.KIE_API_KEY),
+          hasKieKey: Boolean(process.env.KIE_AI_API_KEY),
           kieModel: process.env.KIE_MODEL ?? "deepseek-v4-1-flash",
           redis: process.env.UPSTASH_REDIS_REST_URL
             ? "configured"
