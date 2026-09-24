@@ -1,0 +1,550 @@
+{
+  "quiz": {
+    "m1-praaksara": [
+      {
+        "id": "m1-praaksaraq1",
+        "pertanyaan": "Apa arti kata \"praaksara\"?",
+        "opsi": ["Sebelum ada manusia", "Sebelum ada tulisan", "Sebelum ada api", "Sebelum ada logam"],
+        "jawaban": 1
+      },
+      {
+        "id": "m1-praaksaraq2",
+        "pertanyaan": "Istilah \"nirleka\" berasal dari bahasa Sanskerta yang berarti...",
+        "opsi": ["Tanpa tulisan", "Tanpa manusia", "Tanpa alat", "Tanpa api"],
+        "jawaban": 0
+      },
+      {
+        "id": "m1-praaksaraq3",
+        "pertanyaan": "Tanpa catatan tertulis, bukti apa yang dipakai arkeolog dan geolog untuk menyusun sejarah masa praaksara?",
+        "opsi": [
+          "Prasasti dan kitab kuno",
+          "Benda seperti batu, tulang, sampah dapur, cap tangan, dan fosil",
+          "Foto satelit",
+          "Catatan lisan turun-temurun"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m1-praaksaraq4",
+        "pertanyaan": "Ciri yang membedakan kapak perimbas buatan manusia dari batu alam biasa adalah...",
+        "opsi": [
+          "Warnanya lebih terang",
+          "Ukurannya selalu besar",
+          "Ada jejak pukul berulang (retus) yang berpola di sisi tajamnya",
+          "Ditemukan di sungai"
+        ],
+        "jawaban": 2
+      },
+      {
+        "id": "m1-praaksaraq5",
+        "pertanyaan": "Prinsip dasar untuk memperkirakan usia benda dari lapisan tanah tempat ditemukannya adalah...",
+        "opsi": [
+          "Semakin dalam lapisan, semakin tua usianya",
+          "Semakin dalam lapisan, semakin muda usianya",
+          "Usia tidak bisa diperkirakan dari lapisan tanah",
+          "Hanya warna tanah yang menentukan usia"
+        ],
+        "jawaban": 0
+      }
+    ],
+    "m1": [
+      {
+        "id": "m1q1",
+        "pertanyaan": "Menurut Hukum Superposisi, lapisan tanah yang paling tua berada di...",
+        "opsi": ["Bagian paling atas", "Bagian paling bawah", "Bagian tengah", "Tidak bisa ditentukan"],
+        "jawaban": 1
+      },
+      {
+        "id": "m1q2",
+        "pertanyaan": "Mengapa masa sebelum tulisan disebut prasejarah?",
+        "opsi": [
+          "Karena belum ada manusia",
+          "Karena tidak ada catatan tertulis",
+          "Karena belum ada fosil",
+          "Karena belum ditemukan arkeolog"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m1q3",
+        "pertanyaan": "Ilmu yang mempelajari lapisan tanah disebut...",
+        "opsi": ["Paleontologi", "Geologi", "Stratigrafi", "Antropologi"],
+        "jawaban": 2
+      }
+    ],
+    "m2-1": [
+      {
+        "id": "m2-1q1",
+        "pertanyaan": "Mata pencaharian utama manusia pada masa Paleolitikum adalah...",
+        "opsi": ["Bercocok tanam di sawah", "Berburu hewan dan mengumpulkan makanan liar", "Berdagang antarpulau", "Melebur logam"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-1q2",
+        "pertanyaan": "Ciri utama alat-alat pada masa Paleolitikum adalah...",
+        "opsi": [
+          "Sudah diasah halus dan berbentuk simetris",
+          "Terbuat dari batu, tulang, dan kayu dengan bentuk kasar",
+          "Terbuat dari perunggu",
+          "Terbuat dari besi tempa"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-1q3",
+        "pertanyaan": "Cara hidup manusia pada masa Paleolitikum bersifat...",
+        "opsi": [
+          "Menetap dan membangun rumah permanen",
+          "Nomaden, berpindah-pindah mengikuti sumber makanan",
+          "Tinggal di rumah panggung tepi pantai",
+          "Berlayar dengan perahu bercadik"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-1q4",
+        "pertanyaan": "Pembagian kerja pada masa Paleolitikum umumnya berbentuk...",
+        "opsi": [
+          "Laki-laki berburu, perempuan mengumpulkan makanan dan mengurus anak",
+          "Perempuan berburu, laki-laki menjaga api",
+          "Tidak ada pembagian kerja sama sekali",
+          "Anak-anak yang bertugas berburu"
+        ],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-1q5",
+        "pertanyaan": "Kebudayaan Pacitan pada masa Paleolitikum di Indonesia dikenal dengan alat berupa...",
+        "opsi": ["Kapak penetak (chopper) dari batu", "Nekara perunggu", "Kapak lonjong yang diasah halus", "Gerabah tanah liat"],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-1q6",
+        "pertanyaan": "Kebudayaan Ngandong pada masa Paleolitikum di Indonesia menghasilkan alat dari...",
+        "opsi": ["Besi", "Emas dan perak", "Tulang dan alat serpih (flakes)", "Perunggu"],
+        "jawaban": 2
+      }
+    ],
+    "m2-2": [
+      {
+        "id": "m2-2q1",
+        "pertanyaan": "Tempat tinggal khas manusia Mesolitikum yang berupa gua atau ceruk karang disebut...",
+        "opsi": ["Kjokkenmoddinger", "Abris sous roche", "Punden berundak", "Sarkofagus"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-2q2",
+        "pertanyaan": "Tumpukan sampah dapur berupa kulit kerang yang menggunung, penanda khas Mesolitikum di pesisir timur Sumatera Utara, disebut...",
+        "opsi": ["Abris sous roche", "Waruga", "Kjokkenmoddinger", "Menhir"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-2q3",
+        "pertanyaan": "Dibanding masa Paleolitikum, alat-alat pada masa Mesolitikum...",
+        "opsi": ["Terbuat dari besi tempa", "Permukaannya sudah lebih halus", "Sudah tidak dipakai lagi", "Semuanya terbuat dari perunggu"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-2q4",
+        "pertanyaan": "Tanda-tanda awal bercocok tanam pada masa Mesolitikum ditunjukkan dengan...",
+        "opsi": ["Membangun candi", "Melebur logam", "Mencoba menanam padi, umbi-umbian, dan kacang-kacangan", "Berlayar dengan perahu bercadik"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-2q5",
+        "pertanyaan": "Lukisan dinding gua pada masa Mesolitikum umumnya dibuat dengan cat berwarna...",
+        "opsi": ["Biru, hijau, dan ungu", "Merah, hitam, dan putih dari bahan alami", "Emas dan perak", "Hanya hitam"],
+        "jawaban": 1
+      }
+    ],
+    "m2-3": [
+      {
+        "id": "m2-3q1",
+        "pertanyaan": "Teknik membuka lahan dengan menebang hutan lalu membakar semak pada masa Neolitikum disebut...",
+        "opsi": ["Slash and burn", "Kjokkenmoddinger", "Abris sous roche", "Perundagian"],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-3q2",
+        "pertanyaan": "Tradisi menghormati orang tua sebagai pemimpin pada masa Neolitikum lahir dari...",
+        "opsi": [
+          "Aturan tertulis kerajaan",
+          "Pemimpin ditunjuk dari orang paling tua dan berwibawa dalam tradisi gotong royong",
+          "Pemilihan lewat pertarungan",
+          "Warisan dari luar Nusantara"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-3q3",
+        "pertanyaan": "Berikut yang TERMASUK alat khas Neolitikum di Indonesia adalah...",
+        "opsi": ["Beliung persegi dan kapak lonjong", "Nekara perunggu", "Kapak penetak (chopper)", "Alat serpih (flakes)"],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-3q4",
+        "pertanyaan": "Pada masa Neolitikum, kepercayaan terhadap roh leluhur berfungsi sebagai...",
+        "opsi": [
+          "Alat tukar dalam perdagangan",
+          "Penanda status sosial semata",
+          "Rem sosial, karena manusia berperilaku baik sebab percaya diawasi leluhur",
+          "Sumber tenaga kerja"
+        ],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-3q5",
+        "pertanyaan": "Perkampungan pada masa Neolitikum biasanya didirikan di...",
+        "opsi": [
+          "Tengah lautan",
+          "Dekat sumber air seperti sungai, danau, tepi pantai, atau dataran tinggi",
+          "Di dalam gua yang gelap total",
+          "Di puncak gunung berapi aktif"
+        ],
+        "jawaban": 1
+      }
+    ],
+    "m2-4-0": [
+      {
+        "id": "m2-4-0q1",
+        "pertanyaan": "Batu tegak seperti tugu yang berfungsi sebagai penghormatan pada arwah disebut...",
+        "opsi": ["Dolmen", "Menhir", "Sarkofagus", "Waruga"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-4-0q2",
+        "pertanyaan": "Batu datar besar yang disangga beberapa batu tegak, berfungsi sebagai meja sesajen atau altar upacara, disebut...",
+        "opsi": ["Menhir", "Dolmen", "Punden berundak", "Peti kubur batu"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-4-0q3",
+        "pertanyaan": "Wadah jenazah yang dipahat dari satu batu utuh disebut...",
+        "opsi": ["Waruga", "Kubur berundak", "Sarkofagus", "Arca / patung batu"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-4-0q4",
+        "pertanyaan": "Kubur batu berbentuk kubus dengan tutup segitiga disebut...",
+        "opsi": ["Punden berundak", "Waruga", "Peti kubur batu", "Dolmen"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-4-0q5",
+        "pertanyaan": "Bangunan bertingkat yang berfungsi sebagai tempat pemujaan disebut...",
+        "opsi": ["Punden berundak", "Kubur berundak", "Sarkofagus", "Menhir"],
+        "jawaban": 0
+      }
+    ],
+    "m2-4-1": [
+      {
+        "id": "m2-4-1q1",
+        "pertanyaan": "Di situs megalitik Nias, batu tegak yang menandai status keluarga bangsawan disebut...",
+        "opsi": ["Menhir", "Sarkofagus", "Waruga", "Punden berundak"],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-4-1q2",
+        "pertanyaan": "Tradisi lompat batu (fahombo) yang dulu jadi ujian ksatria masih dipraktikkan di situs megalitik...",
+        "opsi": ["Pasemah", "Gilimanuk", "Nias", "Toraja"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-4-1q3",
+        "pertanyaan": "Patung-patung batu raksasa di situs Pasemah, Sumatera Selatan, diperkirakan berumur sekitar...",
+        "opsi": ["500 tahun", "1.000 tahun", "2.500 tahun", "10.000 tahun"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-4-1q4",
+        "pertanyaan": "Patung-patung di situs Pasemah kebanyakan menggambarkan...",
+        "opsi": [
+          "Manusia menunggang gajah, membawa nekara, atau bergulat dengan ular",
+          "Manusia menunggang kuda",
+          "Hewan laut",
+          "Dewa-dewi Hindu"
+        ],
+        "jawaban": 0
+      }
+    ],
+    "m2-4-3": [
+      {
+        "id": "m2-4-3q1",
+        "pertanyaan": "Situs Gilimanuk di Bali dikenal menyimpan ratusan kubur batu dan...",
+        "opsi": ["Waruga", "Sarkofagus dengan hiasan kepala manusia dan hewan", "Nekara perunggu raksasa", "Punden berundak"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-4-3q2",
+        "pertanyaan": "Bekal kubur berupa manik-manik dan perhiasan logam di Gilimanuk menunjukkan situs ini adalah masa peralihan antara...",
+        "opsi": ["Paleolitikum dan Mesolitikum", "Neolitikum akhir dan Perundagian awal", "Perundagian dan zaman modern", "Mesolitikum dan Neolitikum"],
+        "jawaban": 1
+      }
+    ],
+    "m2-4-5": [
+      {
+        "id": "m2-4-5q1",
+        "pertanyaan": "Batu Simbuang di Toraja didirikan pada upacara pemakaman yang disebut...",
+        "opsi": ["Rambu Solo", "Ma'nene", "Tau-tau", "Reti"],
+        "jawaban": 0
+      },
+      {
+        "id": "m2-4-5q2",
+        "pertanyaan": "Makam-makam batu di Londa dan Kete Kesu, Toraja, berupa lubang batu yang dipahat di tebing, tempat menyimpan...",
+        "opsi": ["Nekara perunggu", "Tau-tau, patung kayu yang menyerupai orang yang meninggal", "Sarkofagus batu utuh", "Perhiasan logam"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-4-5q3",
+        "pertanyaan": "Praktik penguburan dua tahap yang khas Perundagian masih hidup di Toraja sampai sekarang, ini menunjukkan...",
+        "opsi": [
+          "Tradisi megalitik yang sudah lama punah",
+          "Kesinambungan tradisi leluhur hingga masa kini",
+          "Pengaruh budaya asing modern",
+          "Praktik yang baru muncul abad ke-20"
+        ],
+        "jawaban": 1
+      }
+    ],
+    "m2-5": [
+      {
+        "id": "m2-5q1",
+        "pertanyaan": "Kepercayaan bahwa semua benda di alam seperti pohon, batu, gunung, dan sungai memiliki roh atau jiwa disebut...",
+        "opsi": ["Dinamisme", "Animisme", "Totemisme", "Perundagian"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-5q2",
+        "pertanyaan": "Kepercayaan bahwa benda-benda tertentu seperti keris, nekara, atau batu besar mengandung kekuatan gaib disebut...",
+        "opsi": ["Animisme", "Dinamisme", "Nirleka", "Kjokkenmoddinger"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-5q3",
+        "pertanyaan": "Manusia praaksara menghormati roh pada benda alam karena mereka meyakini roh itu...",
+        "opsi": ["Tidak berpengaruh apa-apa", "Bisa memengaruhi kehidupan mereka", "Hanya ada di dalam gua", "Hanya muncul saat gerhana"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-5q4",
+        "pertanyaan": "Hubungan sistem kepercayaan dengan peninggalan megalitik terlihat dari...",
+        "opsi": [
+          "Menhir didirikan untuk menghormati arwah leluhur dan dolmen menjadi meja sesajen",
+          "Semua batu besar dibuat untuk hiasan taman",
+          "Peninggalan megalitik tidak berkaitan dengan kepercayaan",
+          "Megalitik hanya dibuat untuk kebutuhan pertanian"
+        ],
+        "jawaban": 0
+      }
+    ],
+    "m2-6": [
+      {
+        "id": "m2-6q1",
+        "pertanyaan": "Nama \"perundagian\" berasal dari kata undagi dalam bahasa Bali, yang berarti...",
+        "opsi": ["Roh leluhur", "Seseorang atau kelompok yang memiliki keterampilan khusus", "Rumah panggung", "Perahu bercadik"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-6q2",
+        "pertanyaan": "Yang membedakan masa Perundagian dengan Neolitikum adalah...",
+        "opsi": [
+          "Manusia belum menetap",
+          "Pembagian kerja mulai berbasis keahlian, manusia mulai punya profesi",
+          "Belum mengenal pertanian",
+          "Belum ada kepercayaan pada leluhur"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-6q3",
+        "pertanyaan": "Manusia Perundagian mengenal proses peleburan, pencampuran, penempaan, dan pencetakan pada bahan...",
+        "opsi": ["Batu", "Kayu", "Logam", "Tanah liat"],
+        "jawaban": 2
+      },
+      {
+        "id": "m2-6q4",
+        "pertanyaan": "Nekara Bulan Pejeng dari Bali, nekara terbesar di Asia Tenggara, dipercaya memiliki kekuatan gaib untuk...",
+        "opsi": ["Menyembuhkan penyakit", "Memanggil hujan", "Mengusir hewan buas", "Menambah hasil panen padi"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-6q5",
+        "pertanyaan": "Teknologi kunci yang memungkinkan pelayaran jarak jauh pada masa Perundagian adalah...",
+        "opsi": ["Kapal selam", "Perahu bercadik", "Rakit bambu", "Jembatan batu"],
+        "jawaban": 1
+      },
+      {
+        "id": "m2-6q6",
+        "pertanyaan": "Praktik penguburan dua tahap pada masa Perundagian masih hidup sampai sekarang dalam upacara Rambu Solo di daerah...",
+        "opsi": ["Nias", "Minahasa", "Toraja", "Sumba"],
+        "jawaban": 2
+      }
+    ],
+    "m3-1": [
+      {
+        "id": "m3-1q1",
+        "pertanyaan": "Fosil Meganthropus Paleojavanicus ditemukan oleh...",
+        "opsi": ["Eugène Dubois", "Gustav Heinrich Ralph von Koenigswald", "Teuku Jacob", "B.D. van Rietschoten"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-1q2",
+        "pertanyaan": "Fosil Meganthropus Paleojavanicus ditemukan di daerah...",
+        "opsi": ["Trinil, Jawa Timur", "Ngandong, Jawa Tengah", "Sangiran, Sragen, Jawa Tengah", "Wajak, Tulungagung"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-1q3",
+        "pertanyaan": "Salah satu ciri fisik Meganthropus Paleojavanicus adalah...",
+        "opsi": ["Memiliki dagu seperti manusia modern", "Rahang sangat besar dan menonjol", "Tubuh kecil dan ramping", "Dahi tegak seperti Homo sapiens"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-1q4",
+        "pertanyaan": "Makanan utama Meganthropus Paleojavanicus diperkirakan berupa...",
+        "opsi": ["Ikan dan kerang", "Daging hasil berburu", "Tumbuh-tumbuhan berserat, umbi-umbian, dan buah liar", "Padi dan gandum"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-1q5",
+        "pertanyaan": "Mengapa para ahli masih memperdebatkan kemampuan Meganthropus dalam membuat alat?",
+        "opsi": [
+          "Karena semua alat batunya telah rusak",
+          "Karena hanya ditemukan fragmen rahang dan gigi",
+          "Karena fosilnya ditemukan di luar Indonesia",
+          "Karena belum diketahui usia fosilnya"
+        ],
+        "jawaban": 1
+      }
+    ],
+    "m3-2": [
+      {
+        "id": "m3-2q1",
+        "pertanyaan": "Fosil Pithecanthropus erectus pertama kali ditemukan oleh...",
+        "opsi": ["Gustav Heinrich Ralph von Koenigswald", "Eugène Dubois", "B.D. van Rietschoten", "Teuku Jacob"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-2q2",
+        "pertanyaan": "Pithecanthropus erectus ditemukan pada tahun 1891 di...",
+        "opsi": ["Sangiran, Jawa Tengah", "Wajak, Tulungagung", "Trinil, tepi Bengawan Solo", "Mojokerto, Jawa Timur"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-2q3",
+        "pertanyaan": "Arti nama 'Pithecanthropus erectus' adalah...",
+        "opsi": ["Manusia besar dari Jawa", "Manusia kera yang berjalan tegak", "Manusia yang bijaksana", "Manusia gua purba"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-2q4",
+        "pertanyaan": "Volume otak Pithecanthropus erectus diperkirakan sekitar...",
+        "opsi": ["±500 cc", "±900 cc", "±1.300 cc", "±1.450 cc"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-2q5",
+        "pertanyaan": "Kemampuan tangan Pithecanthropus erectus memungkinkannya membuat alat khas dari kebudayaan...",
+        "opsi": ["Ngandong", "Dongson", "Pacitan", "Bacson-Hoabinh"],
+        "jawaban": 2
+      }
+    ],
+    "m3-3": [
+      {
+        "id": "m3-3q1",
+        "pertanyaan": "Volume otak Homo Sapiens berkisar antara...",
+        "opsi": ["300–500 cc", "700–900 cc", "1.300–1.450 cc", "2.000–2.500 cc"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-3q2",
+        "pertanyaan": "Berikut yang BUKAN ciri fisik Homo Sapiens adalah...",
+        "opsi": ["Sudah punya dagu", "Dahi tegak, tidak miring ke belakang", "Tulang alis sangat tebal dan menonjol", "Tinggi kurang lebih 1,73 m"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-3q3",
+        "pertanyaan": "Pada masa Mesolitikum, Homo Sapiens meninggalkan jejak kebudayaan berupa...",
+        "opsi": ["Nekara perunggu", "Lukisan dinding gua dan sampah kerang kjokkenmoddinger", "Punden berundak", "Kapal layar raksasa"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-3q4",
+        "pertanyaan": "Pada masa Perundagian, Homo Sapiens sudah mampu...",
+        "opsi": [
+          "Melebur logam, membangun irigasi, dan berlayar dengan perahu bercadik",
+          "Membuat pesawat terbang",
+          "Menulis huruf Latin",
+          "Membangun kereta api"
+        ],
+        "jawaban": 0
+      },
+      {
+        "id": "m3-3q5",
+        "pertanyaan": "Hampir seluruh peninggalan budaya praaksara di Indonesia, dari alat batu sampai nekara perunggu, dibuat oleh...",
+        "opsi": ["Meganthropus", "Pithecanthropus", "Homo Sapiens", "Homo floresiensis"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-3q6",
+        "pertanyaan": "Homo wajakensis digali oleh B.D. van Rietschoten pada tahun 1889 di daerah...",
+        "opsi": ["Trinil, Ngawi, Jawa Timur", "Wajak, Tulungagung, Jawa Timur", "Ngandong, lembah Bengawan Solo", "Sangiran, Sragen, Jawa Tengah"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-3q7",
+        "pertanyaan": "Homo soloensis ditemukan di daerah...",
+        "opsi": ["Wajak, Tulungagung", "Trinil, Ngawi", "Ngandong, lembah Bengawan Solo", "Liang Bua, Flores"],
+        "jawaban": 2
+      }
+    ],
+    "m3-0": [
+      {
+        "id": "m3-0q1",
+        "pertanyaan": "Prinsip dasar penanggalan relatif fosil di Sangiran adalah...",
+        "opsi": [
+          "Fosil yang lebih besar pasti lebih tua",
+          "Semakin dalam lapisan tanah tempat fosil ditemukan, semakin tua usianya",
+          "Semua fosil di Sangiran seumur",
+          "Usia ditentukan dari warna fosil saja"
+        ],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-0q2",
+        "pertanyaan": "Tiga formasi utama lapisan tanah Sangiran, dari yang tertua, adalah...",
+        "opsi": ["Notopuro, Kabuh, Pucangan", "Pucangan, Kabuh, Notopuro", "Kabuh, Pucangan, Notopuro", "Pucangan, Notopuro, Kabuh"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-0q3",
+        "pertanyaan": "Kemampuan berjalan tegak (bipedalisme) pada manusia purba bisa dibaca dari posisi...",
+        "opsi": ["Gigi geraham", "Foramen magnum, lubang tempat tulang belakang masuk ke tengkorak", "Warna tulang", "Ukuran telapak tangan"],
+        "jawaban": 1
+      },
+      {
+        "id": "m3-0q4",
+        "pertanyaan": "Pengamatan mikroskopis pada bekas serpihan dan goresan di permukaan alat batu untuk menebak fungsinya disebut...",
+        "opsi": ["Stratigrafi", "Ekskavasi digital", "Traseologi (use-wear analysis)", "Forensik tengkorak"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-0q5",
+        "pertanyaan": "Homo floresiensis, si manusia hobbit, ditemukan tahun 2003 di...",
+        "opsi": ["Sangiran, Jawa Tengah", "Trinil, Jawa Timur", "Gua Liang Bua, Pulau Flores", "Wajak, Tulungagung"],
+        "jawaban": 2
+      },
+      {
+        "id": "m3-0q6",
+        "pertanyaan": "Perdebatan ilmiah soal Homo floresiensis berkisar pada...",
+        "opsi": [
+          "Apakah ia spesies tersendiri atau manusia modern yang mengalami kekerdilan akibat isolasi pulau",
+          "Apakah ia lebih tua dari Meganthropus",
+          "Apakah fosilnya ditemukan di Jawa atau Sumatra",
+          "Apakah ia sudah mengenal logam"
+        ],
+        "jawaban": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+# Vendored AR libraries di-gate pakai sha256 (scripts/check-vendor.mjs) terhadap
+# byte asli upstream, yang pakai LF. Tanpa aturan ini, checkout di Windows
+# (core.autocrlf=true) nulis ulang file-nya jadi CRLF -> checksum meleset ->
+# `npm run build` gagal di gate, padahal isinya nggak diapa-apain.
+# `-text` = jangan pernah konversi EOL, di platform mana pun.
+public/vendor/** -text
