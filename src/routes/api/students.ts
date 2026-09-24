@@ -42,18 +42,19 @@ export const Route = createFileRoute("/api/students")({
             );
           }
 
-          const { data, error } = await supabase
-            .from("students")
-            .insert({
-              nama,
-              kelas,
-              sekolah,
-              consent_at: new Date().toISOString(),
-            })
-            .select("id")
-            .single();
+          // Generate the UUID ourselves so we don't need PostgREST's
+          // INSERT ... RETURNING representation. This avoids an unnecessary
+          // second REST-path operation and still gives the client the student id.
+          const id = crypto.randomUUID();
+          const { error } = await supabase.from("students").insert({
+            id,
+            nama,
+            kelas,
+            sekolah,
+            consent_at: new Date().toISOString(),
+          });
 
-          if (error || !data) {
+          if (error) {
             console.error("Gagal menyimpan siswa:", error);
             return Response.json(
               { error: "Gagal menyimpan identitas. Coba lagi." },
@@ -61,7 +62,7 @@ export const Route = createFileRoute("/api/students")({
             );
           }
 
-          return Response.json({ id: data.id });
+          return Response.json({ id });
         } catch (err) {
           console.error("/api/students error", err);
           return Response.json(
