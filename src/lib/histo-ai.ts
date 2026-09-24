@@ -176,11 +176,9 @@ export const askHistoAI = createServerFn({ method: "POST" })
             model: MODEL,
             stream: false,
             input,
-            // Thinking DeepSeek default-nya ON. Sengaja tidak dikirim param
-            // reasoning/thinking: enum OFF pastinya tidak tercantum lengkap di
-            // dok Kie yang ditempel (cuma "reasoning.effort dan thinking.type
-            // kerjanya sama"), dan value tebakan berisiko 400. Bentuk respons
-            // (reasoning + message) tetap dibaca oleh extractReplyText.
+            // Thinking OFF (hemat token reasoning): "none disables thinking
+            // mode" (DeepSeek Responses API). Satu kunci saja, sesuai dok.
+            reasoning: { effort: "none" },
           }),
         });
       } catch (err) {

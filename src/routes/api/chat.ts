@@ -150,6 +150,9 @@ export const Route = createFileRoute("/api/chat")({
               // tools web_search dicabut: endpoint DeepSeek
               // (/openai/v1/responses) tidak mendukungnya, berisiko 400.
               // Aturan sumber di prompt + extractSources() tetap jalan.
+              // Thinking OFF (hemat token reasoning): "none disables thinking
+              // mode" (DeepSeek Responses API).
+              reasoning: { effort: "none" },
             }),
           });
 
