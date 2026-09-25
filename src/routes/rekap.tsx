@@ -66,20 +66,49 @@ function RekapPage() {
   const [unlocked, setUnlocked] = useState(false);
   useEffect(() => {
     const saved = sessionStorage.getItem(PW_KEY);
-    if (saved !== null) {
-      setPassword(saved);
-      setUnlocked(true);
-    }
+    if (saved === null) return;
+    // Restore sesi lama tetap wajib verifikasi ulang ke server.
+    verifyPassword(saved).then((ok) => {
+      if (ok) {
+        setPassword(saved);
+        setUnlocked(true);
+      } else {
+        sessionStorage.removeItem(PW_KEY);
+      }
+    });
   }, []);
   const [busy, setBusy] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
 
-  function savePassword(e: React.FormEvent) {
+  // Password TIDAK PERNAH dipercaya dari client: tombol unduh hanya muncul
+  // setelah server menjawab 200 pada /api/export?jenis=ping.
+  async function verifyPassword(pw: string): Promise<boolean> {
+    try {
+      const res = await fetch("/api/export?jenis=ping", {
+        headers: { "x-export-password": pw },
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  async function savePassword(e: React.FormEvent) {
     e.preventDefault();
-    if (!password.trim()) return;
-    sessionStorage.setItem(PW_KEY, password);
-    setUnlocked(true);
+    const pw = password.trim();
+    if (!pw || checking) return;
+    setChecking(true);
     setError("");
+    const ok = await verifyPassword(pw);
+    setChecking(false);
+    if (!ok) {
+      setError("Password salah. Coba lagi.");
+      return;
+    }
+    sessionStorage.setItem(PW_KEY, pw);
+    setPassword(pw);
+    setUnlocked(true);
   }
 
   function logout() {
@@ -168,9 +197,11 @@ function RekapPage() {
               />
               <Button
                 type="submit"
+                disabled={checking}
                 className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 <LockOpen className="h-4 w-4" />
+                {checking ? "Memeriksa…" : ""}
               </Button>
             </div>
             {error && <p className="mt-3 text-xs text-destructive">{error}</p>}

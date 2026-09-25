@@ -30,9 +30,16 @@ function getLockoutRedis(): Redis | null {
   }
 }
 
-type Jenis = "rekap" | "siswa" | "chat" | "quiz" | "anonim";
+type Jenis = "rekap" | "siswa" | "chat" | "quiz" | "anonim" | "ping";
 
-const JENIS_VALID: Jenis[] = ["rekap", "siswa", "chat", "quiz", "anonim"];
+const JENIS_VALID: Jenis[] = [
+  "rekap",
+  "siswa",
+  "chat",
+  "quiz",
+  "anonim",
+  "ping",
+];
 
 interface StudentRow {
   id: string;
@@ -166,6 +173,12 @@ export const Route = createFileRoute("/api/export")({
               { error: "Jenis export tidak dikenal." },
               { status: 400 },
             );
+          }
+
+          // Verifikasi password tanpa baca DB: dipakai halaman /rekap untuk
+          // membuka tombol unduh HANYA setelah server menyatakan password benar.
+          if (jenis === "ping") {
+            return Response.json({ ok: true });
           }
 
           const today = new Date().toISOString().slice(0, 10);

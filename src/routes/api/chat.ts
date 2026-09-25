@@ -156,6 +156,19 @@ export const Route = createFileRoute("/api/chat")({
             isFinal,
           );
 
+          // Simpan pertanyaan siswa DULUAN (sebelum panggil AI): kalau KIE
+          // gagal (key salah, param ditolak, timeout), jejak pertanyaan tetap
+          // tercatat dan bisa didiagnosis dari data. Balasan AI menyusul di bawah.
+          void saveChatPair([
+            {
+              student_id: body.student_id || null,
+              materi_id: body.materi_id || null,
+              sumber: "post_quiz",
+              role: "user",
+              content: pertanyaan,
+            },
+          ]);
+
           const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -166,8 +179,9 @@ export const Route = createFileRoute("/api/chat")({
               model: MODEL,
               stream: false,
               // Variasi redaksi antar device, fakta inti tetap sama (prompt v2026-09-25).
+              // Hanya temperature (top_p sengaja tidak dikirim: endpoint
+              // DeepSeek Kie berisiko 400 untuk param non-esensial).
               temperature: 0.85,
-              top_p: 0.95,
               input: [
                 {
                   role: "user",
@@ -208,15 +222,9 @@ export const Route = createFileRoute("/api/chat")({
             extractReplyText(json) ?? "Maaf, tidak ada balasan dari AI.";
           const reply = bersihkanFormat(rawReply);
 
-          // Pencatatan penelitian, fire-and-forget (tidak pernah throw).
+          // Balasan AI menyusul (pertanyaan sudah tersimpan di atas).
+          // Fire-and-forget, tidak pernah throw.
           void saveChatPair([
-            {
-              student_id: body.student_id || null,
-              materi_id: body.materi_id || null,
-              sumber: "post_quiz",
-              role: "user",
-              content: pertanyaan,
-            },
             {
               student_id: body.student_id || null,
               materi_id: body.materi_id || null,

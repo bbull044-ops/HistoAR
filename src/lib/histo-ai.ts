@@ -171,6 +171,18 @@ export const askHistoAI = createServerFn({ method: "POST" })
         },
       ];
 
+      // Simpan pertanyaan siswa DULUAN: kalau KIE gagal, jejak pertanyaan
+      // tetap tercatat (pola sama seperti /api/chat).
+      void saveChatPair([
+        {
+          student_id: data.studentId || null,
+          materi_id: null,
+          sumber: "landing",
+          role: "user",
+          content: message,
+        },
+      ]);
+
       let response: Response;
       try {
         response = await fetch(API_URL, {
@@ -227,15 +239,9 @@ export const askHistoAI = createServerFn({ method: "POST" })
 
       const cleaned = bersihkanFormat(rawReply);
 
-      // Pencatatan penelitian, fire-and-forget (tidak pernah throw).
+      // Balasan AI menyusul (pertanyaan sudah tersimpan di atas).
+      // Fire-and-forget, tidak pernah throw.
       void saveChatPair([
-        {
-          student_id: data.studentId || null,
-          materi_id: null,
-          sumber: "landing",
-          role: "user",
-          content: message,
-        },
         {
           student_id: data.studentId || null,
           materi_id: null,
