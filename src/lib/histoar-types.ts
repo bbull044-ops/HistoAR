@@ -28,6 +28,8 @@ export interface QuizQuestion {
 }
 
 export interface QuizData {
+  // Penelitian Prof. Wawan: satu quiz akhir "final" (10 soal keseluruhan).
+  // Bentuk Record dipertahankan agar data lama per-materi masih terbaca.
   quiz: Record<string, QuizQuestion[]>;
 }
 

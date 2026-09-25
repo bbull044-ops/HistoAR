@@ -177,7 +177,7 @@ export function Viewer3D({
   const gateReady = gate.total > 0 && gate.done >= gate.total;
   const hasMultipleTargets = arConfig.targets.length > 1;
   const gateLabel = gateReady
-    ? "Lanjut ke Quiz →"
+    ? "Lanjut ke Diskusi HistoAI →"
     : `Jelajahi semua bagian dulu (${gate.done}/${gate.total || "…"})`;
   const selectTarget = (key: string) => {
     engineRef.current?.selectTarget(key);
@@ -336,7 +336,7 @@ export function Viewer3D({
         <div className="mt-6 shrink-0 space-y-2 border-t border-border pt-5">
           <button
             disabled={!gateReady}
-            onClick={() => gateReady && navigate({ to: "/quiz/$id", params: { id: materiId } })}
+            onClick={() => gateReady && navigate({ to: "/materi/$id/diskusi", params: { id: materiId } })}
             className="w-full rounded-full bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-60"
           >
             {gateLabel}
@@ -459,7 +459,7 @@ export function Viewer3D({
           <button
             id="btnKeQuiz"
             disabled={!gateReady}
-            onClick={() => gateReady && navigate({ to: "/quiz/$id", params: { id: materiId } })}
+            onClick={() => gateReady && navigate({ to: "/materi/$id/diskusi", params: { id: materiId } })}
             className="mt-5 w-full rounded-full bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-60"
           >
             {gateLabel}

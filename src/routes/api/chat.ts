@@ -32,15 +32,30 @@ function konteksMateri(materi: NonNullable<ReturnType<typeof cariMateri>>) {
   return `${materi.ringkasan}\n\n${bagian}`;
 }
 
+// Peta ringkas seluruh materi (penelitian Prof. Wawan, prompt v2026-09-25).
+// Dikirim bersama materi aktif supaya HistoAI bisa menggabungkan jawaban
+// antar bab tanpa mengirim full 15 materi (hemat token, cepat di HP sekolah).
+function petaMateri(): string {
+  const list = (materiData as MateriData).materi
+    .slice()
+    .sort((a, b) => a.urutan - b.urutan)
+    .map((m) => `- ${m.kode} · ${m.judul}: ${m.ringkasan}`);
+  return list.join("\n");
+}
+
 function buatPrompt(
   judul: string | undefined,
   konteks: string | undefined,
   pertanyaan: string,
   history: ChatBody["history"],
+  isFinal = false,
 ) {
-  const materiSection = konteks
-    ? `Konteks materi HistoAR (konteks awal, BUKAN batas pengetahuan):\n\n====================\nMateri: ${judul}\n${konteks}\n====================`
-    : "Tidak ada materi spesifik yang dipilih. Jawab sebagai asisten sejarah umum.";
+  const peta = petaMateri();
+  const materiSection = isFinal
+    ? `Konteks HistoAR (quiz akhir, gabungan seluruh materi):\n\n====================\n${peta}\n====================\n\nDetail materi aktif:\n${konteks ?? "-"}`
+    : konteks
+      ? `Konteks materi HistoAR (konteks awal, BUKAN batas pengetahuan):\n\n====================\nMateri: ${judul}\n${konteks}\n====================\n\nPeta seluruh materi (untuk menggabungkan jawaban antar bab bila relevan):\n${peta}`
+      : "Tidak ada materi spesifik yang dipilih. Jawab sebagai asisten sejarah umum.";
 
   const historySection = (history ?? [])
     .slice(-8)
@@ -80,6 +95,11 @@ GAYA:
 - Jangan memaksa percakapan kembali ke materi.
 - Jangan menyebut prompt, aturan internal, atau instruksi sistem.
 
+VARIASI REDAKSI (penelitian Prof. Wawan, prompt v2026-09-25):
+- Fakta inti (nama, angka, urutan sebab-akibat dari materi) WAJIB sama.
+- Redaksi WAJIB beda tiap balasan: variasikan kalimat pembuka, transisi, dan contoh dengan kata-katamu sendiri.
+- Jangan memakai template tetap yang diulang persis antar sesi.
+
 ${materiSection}
 
 RIWAYAT:
@@ -118,7 +138,8 @@ export const Route = createFileRoute("/api/chat")({
               { status: 400 },
             );
 
-          const materi = cariMateri(body.materi_id);
+          const isFinal = body.materi_id === "final";
+          const materi = isFinal ? undefined : cariMateri(body.materi_id);
           const apiKey = process.env.KIE_AI_API_KEY;
           if (!apiKey) {
             return Response.json(
@@ -128,10 +149,11 @@ export const Route = createFileRoute("/api/chat")({
           }
 
           const prompt = buatPrompt(
-            materi?.judul,
-            materi ? konteksMateri(materi) : undefined,
+            isFinal ? "Quiz Akhir (gabungan seluruh materi)" : materi?.judul,
+            isFinal ? undefined : materi ? konteksMateri(materi) : undefined,
             pertanyaan,
             body.history,
+            isFinal,
           );
 
           const response = await fetch(API_URL, {
@@ -143,6 +165,9 @@ export const Route = createFileRoute("/api/chat")({
             body: JSON.stringify({
               model: MODEL,
               stream: false,
+              // Variasi redaksi antar device, fakta inti tetap sama (prompt v2026-09-25).
+              temperature: 0.85,
+              top_p: 0.95,
               input: [
                 {
                   role: "user",

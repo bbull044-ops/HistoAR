@@ -21,17 +21,38 @@ function MateriPage() {
         <div className="mb-4">
           <CoreSample currentMateriId={null} />
         </div>
-        <span className="catalog-label text-accent-foreground">Katalog · Peta Lapisan</span>
+        <span className="catalog-label text-accent-foreground">
+          Katalog · Peta Lapisan
+        </span>
         <h1 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">
           Pilih Materi
         </h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Materi tersusun berurutan seperti lapisan tanah, selesaikan satu materi (scan AR + quiz
-          + diskusi HistoAI) untuk membuka materi berikutnya.
+          Materi tersusun berurutan seperti lapisan tanah. Jelajahi tiap materi
+          (scan AR / 3D + diskusi HistoAI), lalu kerjakan satu quiz akhir berisi
+          10 soal dari keseluruhan materi.
         </p>
 
         <div className="mt-10">
           <MateriGrid />
+        </div>
+
+        <div className="mt-8 flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-5 sm:flex-row sm:items-center">
+          <div className="flex-1">
+            <div className="font-display text-base font-medium">
+              Sudah selesai semua materi?
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Kerjakan quiz akhir — 10 soal dari keseluruhan bab, nilai
+              tersimpan otomatis.
+            </div>
+          </div>
+          <Link
+            to="/quiz"
+            className="inline-block rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
+          >
+            Ke Quiz Akhir →
+          </Link>
         </div>
 
         <Link

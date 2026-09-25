@@ -1,10 +1,11 @@
 // Port dari assets/js/progress.js
+// Penelitian Prof. Wawan: satu quiz akhir (materi_id "final", 10 soal).
 // Simpan progres belajar siswa di localStorage:
-// - materi mana yang sudah selesai (quiz + chatbot kelar)
-// - materi berikutnya otomatis ke-unlock
+// - materi mana yang sudah selesai (diskusi HistoAI kelar)
+// - quiz akhir dicatat terpisah sebagai completed "final" + skornya
 //
 // Struktur localStorage:
-// histoar_progress = { completed: ["m1", "m2"], scores: { m1: 3 } }
+// histoar_progress = { completed: ["m1", "m2", "final"], scores: { final: 8 } }
 
 import type { Materi } from "@/lib/histoar-types";
 
@@ -27,7 +28,8 @@ export function getProgress(): Progress {
     const parsed = JSON.parse(raw);
     return {
       completed: Array.isArray(parsed.completed) ? parsed.completed : [],
-      scores: parsed.scores && typeof parsed.scores === "object" ? parsed.scores : {},
+      scores:
+        parsed.scores && typeof parsed.scores === "object" ? parsed.scores : {},
     };
   } catch (err) {
     console.error("Gagal membaca progres:", err);
@@ -62,7 +64,10 @@ export function isMateriComplete(materiId: string): boolean {
  * Materi ke-N terbuka jika materi ke-(N-1) sudah selesai.
  * Materi pertama (urutan 1) selalu terbuka.
  */
-export function isMateriUnlocked(materiList: Materi[], materiId: string): boolean {
+export function isMateriUnlocked(
+  materiList: Materi[],
+  materiId: string,
+): boolean {
   // Unlock semua materi (fitur lock-per-urutan dinonaktifkan sementara).
   return true;
 }

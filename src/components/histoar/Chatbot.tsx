@@ -23,8 +23,8 @@ export function Chatbot({
 }: {
   materiId: string;
   materiJudul: string;
-  score: number;
-  total: number;
+  score?: number;
+  total?: number;
   onFirstInteraction: () => void;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -38,10 +38,15 @@ export function Chatbot({
   useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
-    const pembuka =
-      score === total
-        ? `Mantap, nilai kamu sempurna (${score}/${total}) di materi "${materiJudul}"! Sekarang kamu bebas mengeksplorasi sejarah lewat HistoAI. Ada yang mau kamu tanyakan?`
-        : `Kamu dapat skor ${score}/${total} di materi "${materiJudul}". Kamu bisa membahas soal yang masih kurang pas atau mengeksplorasi pertanyaan sejarah lain lewat HistoAI.`;
+    let pembuka: string;
+    if (typeof score === "number" && typeof total === "number") {
+      pembuka =
+        score === total
+          ? `Mantap, nilai kamu sempurna (${score}/${total})! Sekarang kamu bebas mengeksplorasi sejarah lewat HistoAI. Ada yang mau kamu tanyakan?`
+          : `Kamu dapat skor ${score}/${total}. Kamu bisa membahas soal yang masih kurang pas atau mengeksplorasi pertanyaan sejarah lain lewat HistoAI.`;
+    } else {
+      pembuka = `Kamu sudah menjelajahi materi "${materiJudul}". Sekarang eksplorasi lebih dalam lewat HistoAI — tanyakan apa saja yang masih bikin penasaran.`;
+    }
     setMessages([{ role: "bot", text: pembuka }]);
   }, [materiJudul, score, total]);
 

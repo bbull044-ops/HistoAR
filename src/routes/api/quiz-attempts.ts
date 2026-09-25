@@ -42,6 +42,18 @@ export const Route = createFileRoute("/api/quiz-attempts")({
             );
           }
 
+          // Penelitian Prof. Wawan: satu quiz akhir, total selalu 10.
+          // Data lama per-materi tetap tersimpan di tabel (arsip).
+          if (body.materi_id !== "final" || body.total !== 10) {
+            return Response.json(
+              {
+                error:
+                  "Quiz akhir harus materi_id 'final' dengan total 10 soal.",
+              },
+              { status: 400 },
+            );
+          }
+
           const answers = body.answers
             .filter((a) => typeof a?.soal_id === "string")
             .map((a) => ({

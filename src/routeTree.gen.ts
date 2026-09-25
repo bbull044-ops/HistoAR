@@ -10,44 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MateriIndexRouteImport } from './routes/materi/index'
-import { Route as QuizIdRouteImport } from './routes/quiz/$id'
-import { Route as ApiStudentsRouteImport } from './routes/api/students'
-import { Route as ApiQuizAttemptsRouteImport } from './routes/api/quiz-attempts'
-import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as ApiQuizAttemptsRouteImport } from './routes/api/quiz-attempts'
+import { Route as ApiStudentsRouteImport } from './routes/api/students'
+import { Route as MateriIndexRouteImport } from './routes/materi/index'
+import { Route as QuizIndexRouteImport } from './routes/quiz/index'
 import { Route as MateriIdIndexRouteImport } from './routes/materi/$id/index'
-import { Route as MateriIdViewerRouteImport } from './routes/materi/$id/viewer'
 import { Route as MateriIdArRouteImport } from './routes/materi/$id/ar'
+import { Route as MateriIdDiskusiRouteImport } from './routes/materi/$id/diskusi'
+import { Route as MateriIdViewerRouteImport } from './routes/materi/$id/viewer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MateriIndexRoute = MateriIndexRouteImport.update({
-  id: '/materi/',
-  path: '/materi/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuizIdRoute = QuizIdRouteImport.update({
-  id: '/quiz/$id',
-  path: '/quiz/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiStudentsRoute = ApiStudentsRouteImport.update({
-  id: '/api/students',
-  path: '/api/students',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiQuizAttemptsRoute = ApiQuizAttemptsRouteImport.update({
-  id: '/api/quiz-attempts',
-  path: '/api/quiz-attempts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiHealthRoute = ApiHealthRouteImport.update({
-  id: '/api/health',
-  path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -55,19 +31,49 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQuizAttemptsRoute = ApiQuizAttemptsRouteImport.update({
+  id: '/api/quiz-attempts',
+  path: '/api/quiz-attempts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStudentsRoute = ApiStudentsRouteImport.update({
+  id: '/api/students',
+  path: '/api/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MateriIndexRoute = MateriIndexRouteImport.update({
+  id: '/materi/',
+  path: '/materi/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizIndexRoute = QuizIndexRouteImport.update({
+  id: '/quiz/',
+  path: '/quiz/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MateriIdIndexRoute = MateriIdIndexRouteImport.update({
   id: '/materi/$id/',
   path: '/materi/$id/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MateriIdViewerRoute = MateriIdViewerRouteImport.update({
-  id: '/materi/$id/viewer',
-  path: '/materi/$id/viewer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MateriIdArRoute = MateriIdArRouteImport.update({
   id: '/materi/$id/ar',
   path: '/materi/$id/ar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MateriIdDiskusiRoute = MateriIdDiskusiRouteImport.update({
+  id: '/materi/$id/diskusi',
+  path: '/materi/$id/diskusi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MateriIdViewerRoute = MateriIdViewerRouteImport.update({
+  id: '/materi/$id/viewer',
+  path: '/materi/$id/viewer',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -77,9 +83,10 @@ export interface FileRoutesByFullPath {
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
-  '/quiz/$id': typeof QuizIdRoute
   '/materi/': typeof MateriIndexRoute
+  '/quiz/': typeof QuizIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
+  '/materi/$id/diskusi': typeof MateriIdDiskusiRoute
   '/materi/$id/viewer': typeof MateriIdViewerRoute
   '/materi/$id/': typeof MateriIdIndexRoute
 }
@@ -89,9 +96,10 @@ export interface FileRoutesByTo {
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
-  '/quiz/$id': typeof QuizIdRoute
   '/materi': typeof MateriIndexRoute
+  '/quiz': typeof QuizIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
+  '/materi/$id/diskusi': typeof MateriIdDiskusiRoute
   '/materi/$id/viewer': typeof MateriIdViewerRoute
   '/materi/$id': typeof MateriIdIndexRoute
 }
@@ -102,9 +110,10 @@ export interface FileRoutesById {
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
-  '/quiz/$id': typeof QuizIdRoute
   '/materi/': typeof MateriIndexRoute
+  '/quiz/': typeof QuizIndexRoute
   '/materi/$id/ar': typeof MateriIdArRoute
+  '/materi/$id/diskusi': typeof MateriIdDiskusiRoute
   '/materi/$id/viewer': typeof MateriIdViewerRoute
   '/materi/$id/': typeof MateriIdIndexRoute
 }
@@ -116,9 +125,10 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
-    | '/quiz/$id'
     | '/materi/'
+    | '/quiz/'
     | '/materi/$id/ar'
+    | '/materi/$id/diskusi'
     | '/materi/$id/viewer'
     | '/materi/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -128,9 +138,10 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
-    | '/quiz/$id'
     | '/materi'
+    | '/quiz'
     | '/materi/$id/ar'
+    | '/materi/$id/diskusi'
     | '/materi/$id/viewer'
     | '/materi/$id'
   id:
@@ -140,9 +151,10 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
-    | '/quiz/$id'
     | '/materi/'
+    | '/quiz/'
     | '/materi/$id/ar'
+    | '/materi/$id/diskusi'
     | '/materi/$id/viewer'
     | '/materi/$id/'
   fileRoutesById: FileRoutesById
@@ -153,9 +165,10 @@ export interface RootRouteChildren {
   ApiHealthRoute: typeof ApiHealthRoute
   ApiQuizAttemptsRoute: typeof ApiQuizAttemptsRoute
   ApiStudentsRoute: typeof ApiStudentsRoute
-  QuizIdRoute: typeof QuizIdRoute
   MateriIndexRoute: typeof MateriIndexRoute
+  QuizIndexRoute: typeof QuizIndexRoute
   MateriIdArRoute: typeof MateriIdArRoute
+  MateriIdDiskusiRoute: typeof MateriIdDiskusiRoute
   MateriIdViewerRoute: typeof MateriIdViewerRoute
   MateriIdIndexRoute: typeof MateriIdIndexRoute
 }
@@ -169,32 +182,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/materi/': {
-      id: '/materi/'
-      path: '/materi'
-      fullPath: '/materi/'
-      preLoaderRoute: typeof MateriIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quiz/$id': {
-      id: '/quiz/$id'
-      path: '/quiz/$id'
-      fullPath: '/quiz/$id'
-      preLoaderRoute: typeof QuizIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/students': {
-      id: '/api/students'
-      path: '/api/students'
-      fullPath: '/api/students'
-      preLoaderRoute: typeof ApiStudentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/quiz-attempts': {
-      id: '/api/quiz-attempts'
-      path: '/api/quiz-attempts'
-      fullPath: '/api/quiz-attempts'
-      preLoaderRoute: typeof ApiQuizAttemptsRouteImport
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/health': {
@@ -204,11 +196,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
+    '/api/quiz-attempts': {
+      id: '/api/quiz-attempts'
+      path: '/api/quiz-attempts'
+      fullPath: '/api/quiz-attempts'
+      preLoaderRoute: typeof ApiQuizAttemptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/students': {
+      id: '/api/students'
+      path: '/api/students'
+      fullPath: '/api/students'
+      preLoaderRoute: typeof ApiStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi/': {
+      id: '/materi/'
+      path: '/materi'
+      fullPath: '/materi/'
+      preLoaderRoute: typeof MateriIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz/': {
+      id: '/quiz/'
+      path: '/quiz'
+      fullPath: '/quiz/'
+      preLoaderRoute: typeof QuizIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/materi/$id/': {
@@ -218,18 +231,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MateriIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/materi/$id/viewer': {
-      id: '/materi/$id/viewer'
-      path: '/materi/$id/viewer'
-      fullPath: '/materi/$id/viewer'
-      preLoaderRoute: typeof MateriIdViewerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/materi/$id/ar': {
       id: '/materi/$id/ar'
       path: '/materi/$id/ar'
       fullPath: '/materi/$id/ar'
       preLoaderRoute: typeof MateriIdArRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi/$id/diskusi': {
+      id: '/materi/$id/diskusi'
+      path: '/materi/$id/diskusi'
+      fullPath: '/materi/$id/diskusi'
+      preLoaderRoute: typeof MateriIdDiskusiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/materi/$id/viewer': {
+      id: '/materi/$id/viewer'
+      path: '/materi/$id/viewer'
+      fullPath: '/materi/$id/viewer'
+      preLoaderRoute: typeof MateriIdViewerRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -241,22 +261,13 @@ const rootRouteChildren: RootRouteChildren = {
   ApiHealthRoute: ApiHealthRoute,
   ApiQuizAttemptsRoute: ApiQuizAttemptsRoute,
   ApiStudentsRoute: ApiStudentsRoute,
-  QuizIdRoute: QuizIdRoute,
   MateriIndexRoute: MateriIndexRoute,
+  QuizIndexRoute: QuizIndexRoute,
   MateriIdArRoute: MateriIdArRoute,
+  MateriIdDiskusiRoute: MateriIdDiskusiRoute,
   MateriIdViewerRoute: MateriIdViewerRoute,
   MateriIdIndexRoute: MateriIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

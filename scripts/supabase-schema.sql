@@ -17,13 +17,18 @@ create table if not exists public.students (
 );
 
 -- 2. Hasil quiz per percobaan (jawaban per-butir sebagai JSONB) ------------
+-- Penelitian Prof. Wawan: SATU quiz akhir (materi_id = 'final', total = 10).
+-- Kolom materi_id dipertahankan (tanpa migrasi destruktif): data lama
+-- per-materi tetap tersimpan sebagai arsip, attempt baru selalu 'final'.
+-- Arsipkan dulu via Table Editor > Export CSV sebelum pengambilan data baru.
 create table if not exists public.quiz_attempts (
   id uuid primary key default gen_random_uuid(),
   student_id uuid not null references public.students (id) on delete cascade,
   materi_id text not null,
   score int not null,
   total int not null,
-  -- Contoh: [{"soal_id":"m1-praaksaraq1","dipilih":1,"benar":true}]
+  -- Contoh baru: [{"soal_id":"final-q1","dipilih":1,"benar":true}]
+  -- Contoh lama (arsip): [{"soal_id":"m1-praaksaraq1","dipilih":1,"benar":true}]
   answers jsonb not null default '[]'::jsonb,
   started_at timestamptz,
   finished_at timestamptz not null default now()
