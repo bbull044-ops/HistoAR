@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RekapRouteImport } from './routes/rekap'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiExportRouteImport } from './routes/api/export'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiQuizAttemptsRouteImport } from './routes/api/quiz-attempts'
 import { Route as ApiStudentsRouteImport } from './routes/api/students'
@@ -26,9 +28,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RekapRoute = RekapRouteImport.update({
+  id: '/rekap',
+  path: '/rekap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExportRoute = ApiExportRouteImport.update({
+  id: '/api/export',
+  path: '/api/export',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
@@ -79,7 +91,9 @@ const MateriIdViewerRoute = MateriIdViewerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/rekap': typeof RekapRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/export': typeof ApiExportRoute
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
@@ -92,7 +106,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/rekap': typeof RekapRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/export': typeof ApiExportRoute
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
@@ -106,7 +122,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/rekap': typeof RekapRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/export': typeof ApiExportRoute
   '/api/health': typeof ApiHealthRoute
   '/api/quiz-attempts': typeof ApiQuizAttemptsRoute
   '/api/students': typeof ApiStudentsRoute
@@ -121,7 +139,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/rekap'
     | '/api/chat'
+    | '/api/export'
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
@@ -134,7 +154,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/rekap'
     | '/api/chat'
+    | '/api/export'
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
@@ -147,7 +169,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/rekap'
     | '/api/chat'
+    | '/api/export'
     | '/api/health'
     | '/api/quiz-attempts'
     | '/api/students'
@@ -161,7 +185,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RekapRoute: typeof RekapRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiExportRoute: typeof ApiExportRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiQuizAttemptsRoute: typeof ApiQuizAttemptsRoute
   ApiStudentsRoute: typeof ApiStudentsRoute
@@ -182,11 +208,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rekap': {
+      id: '/rekap'
+      path: '/rekap'
+      fullPath: '/rekap'
+      preLoaderRoute: typeof RekapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/export': {
+      id: '/api/export'
+      path: '/api/export'
+      fullPath: '/api/export'
+      preLoaderRoute: typeof ApiExportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/health': {
@@ -257,7 +297,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RekapRoute: RekapRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiExportRoute: ApiExportRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiQuizAttemptsRoute: ApiQuizAttemptsRoute,
   ApiStudentsRoute: ApiStudentsRoute,
