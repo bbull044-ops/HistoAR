@@ -99,6 +99,10 @@ function RekapPage() {
         if (res.status === 401) {
           logout();
           setError("Password salah atau berubah. Masukkan ulang.");
+        } else if (res.status === 404) {
+          setError(
+            "Export sedang nonaktif (kill-switch). Nyalakan EXPORT_ENABLED di server dulu.",
+          );
         } else {
           setError(msg);
         }

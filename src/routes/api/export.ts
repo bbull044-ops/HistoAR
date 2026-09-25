@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Redis } from "@upstash/redis";
 import materiData from "@/data/materi.json";
 import type { MateriData } from "@/lib/histoar-types";
 import { csvFile } from "@/lib/csv";
@@ -6,9 +7,28 @@ import { checkRateLimit, clientIdFromHeaders } from "@/lib/rate-limit";
 import { getSupabaseServer } from "@/lib/supabase-server";
 
 // Export CSV data penelitian Prof. Wawan (halaman /rekap).
-// Proteksi: password tunggal via header `x-export-password`, dicocokkan
-// dengan env EXPORT_PASSWORD. Halaman tidak ditautkan di nav.
+// Ancaman: siswa HistoAR itu sendiri (path /rekap terlihat di JS bundle).
+// Pertahanan berlapis:
+//   1. Kill-switch EXPORT_ENABLED (default mati → 404). Nyalakan hanya saat
+//      Prof mau mengunduh, matikan lagi sesudahnya.
+//   2. Password min. 12 karakter via header `x-export-password` (tidak via URL).
+//   3. Lockout brute-force via Redis: 5x salah → IP diblokir 15 menit.
 // Semua baca DB server-side (service_role tidak pernah ke browser).
+
+const MIN_PASSWORD_LENGTH = 12;
+const MAX_FAILS = 5;
+const LOCKOUT_SECONDS = 15 * 60;
+
+function getLockoutRedis(): Redis | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  try {
+    return new Redis({ url, token });
+  } catch {
+    return null;
+  }
+}
 
 type Jenis = "rekap" | "siswa" | "chat" | "quiz" | "anonim";
 
@@ -85,17 +105,58 @@ export const Route = createFileRoute("/api/export")({
             );
           }
 
-          const password = process.env.EXPORT_PASSWORD;
-          if (!password) {
+          // Lapis 1: kill-switch. Mati = seolah endpoint tidak ada.
+          if (process.env.EXPORT_ENABLED !== "true") {
             return Response.json(
-              { error: "Export belum dikonfigurasi (EXPORT_PASSWORD kosong)." },
+              { error: "Tidak ditemukan." },
+              { status: 404 },
+            );
+          }
+
+          const password = process.env.EXPORT_PASSWORD;
+          if (!password || password.length < MIN_PASSWORD_LENGTH) {
+            console.error(
+              "Export ditolak: EXPORT_PASSWORD belum diset / terlalu pendek.",
+            );
+            return Response.json(
+              { error: "Export belum dikonfigurasi." },
               { status: 500 },
             );
           }
 
+          const ip = clientIdFromHeaders(request.headers);
+          const redis = getLockoutRedis();
+          const failKey = `histoar:export-fail:${ip}`;
+          try {
+            const fails = redis ? Number((await redis.get(failKey)) ?? 0) : 0;
+            if (fails >= MAX_FAILS) {
+              console.error(`Export diblokir (lockout brute-force): ip=${ip}`);
+              return Response.json(
+                { error: "Terlalu banyak percobaan salah. Coba lagi nanti." },
+                { status: 429 },
+              );
+            }
+          } catch {
+            // Fail-open: Redis down tidak boleh mematikan export.
+          }
+
           const given = request.headers.get("x-export-password");
           if (given !== password) {
+            try {
+              if (redis) {
+                const count = await redis.incr(failKey);
+                if (count === 1) await redis.expire(failKey, LOCKOUT_SECONDS);
+              }
+            } catch {
+              // Abaikan: pencatatan gagal tidak boleh membocorkan info.
+            }
+            console.error(`Export: password salah, ip=${ip}`);
             return Response.json({ error: "Password salah." }, { status: 401 });
+          }
+          try {
+            if (redis) await redis.del(failKey);
+          } catch {
+            // Abaikan.
           }
 
           const url = new URL(request.url);
