@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { FieldTexture } from "@/components/field-texture";
@@ -59,12 +59,18 @@ function filenameFromHeader(disposition: string | null, fallback: string) {
 }
 
 function RekapPage() {
-  const [password, setPassword] = useState(
-    () => sessionStorage.getItem(PW_KEY) ?? "",
-  );
-  const [unlocked, setUnlocked] = useState(
-    () => sessionStorage.getItem(PW_KEY) !== null,
-  );
+  // sessionStorage HANYA ada di browser. Baca di useEffect supaya SSR
+  // Vercel tidak crash (ReferenceError) dan tidak hydration mismatch
+  // (pola sama seperti MateriGrid: render server = kosong, isi saat mount).
+  const [password, setPassword] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
+  useEffect(() => {
+    const saved = sessionStorage.getItem(PW_KEY);
+    if (saved !== null) {
+      setPassword(saved);
+      setUnlocked(true);
+    }
+  }, []);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState("");
 
