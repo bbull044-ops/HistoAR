@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { setStudentId } from "@/lib/student-id";
 
-// Form identitas sekali-isi sebelum quiz: nama, kelas, sekolah +
+// Form identitas sekali-isi sebelum diskusi/quiz: nama, kelas, sekolah +
 // persetujuan penggunaan data untuk penelitian (nama asli disimpan).
 export function StudentForm({
   onRegistered,
@@ -48,7 +48,7 @@ export function StudentForm({
     <div className="mx-auto w-full max-w-2xl rounded-3xl border border-border bg-card p-6 shadow-[0_20px_60px_-30px_oklch(0_0_0/0.25)] sm:p-8">
       <span className="catalog-label text-accent-foreground">Kenalan dulu</span>
       <h3 className="mt-3 font-display text-xl font-medium leading-snug">
-        Isi identitasmu sebelum mulai kuis
+        Isi identitasmu sebelum mulai
       </h3>
       <p className="mt-2 text-sm text-muted-foreground">
         Cukup sekali — datamu dipakai untuk penelitian pembelajaran HistoAR.
@@ -97,7 +97,7 @@ export function StudentForm({
             disabled={sending}
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            {sending ? "Menyimpan…" : "Mulai Kuis"}
+            {sending ? "Menyimpan…" : "Simpan & Lanjut"}
           </Button>
         </div>
       </form>

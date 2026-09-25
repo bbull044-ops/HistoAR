@@ -3,10 +3,12 @@ import { useState } from "react";
 import materiData from "@/data/materi.json";
 import type { MateriData } from "@/lib/histoar-types";
 import { markMateriComplete } from "@/lib/progress";
+import { getStudentId } from "@/lib/student-id";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { FieldTexture } from "@/components/field-texture";
 import { CoreSample } from "@/components/histoar/CoreSample";
+import { StudentForm } from "@/components/histoar/StudentForm";
 import { Chatbot } from "@/components/histoar/Chatbot";
 
 const { materi: materiList } = materiData as MateriData;
@@ -26,6 +28,11 @@ export const Route = createFileRoute("/materi/$id/diskusi")({
 function DiskusiPage() {
   const { materi } = Route.useLoaderData();
   const [unlocked, setUnlocked] = useState(false);
+  // Gerbang identitas: chat penelitian wajib terikat student_id.
+  // Cukup diisi sekali di materi pertama (tersimpan di localStorage).
+  const [studentId, setStudentId] = useState<string | null>(() =>
+    getStudentId(),
+  );
 
   const nextMateri = [...materiList]
     .sort((a, b) => a.urutan - b.urutan)
@@ -51,14 +58,18 @@ function DiskusiPage() {
         <p className="mt-3 text-sm text-muted-foreground">{materi.ringkasan}</p>
 
         <div className="mt-6">
-          <Chatbot
-            materiId={materi.id}
-            materiJudul={materi.judul}
-            onFirstInteraction={() => {
-              markMateriComplete(materi.id, 0);
-              setUnlocked(true);
-            }}
-          />
+          {!studentId ? (
+            <StudentForm onRegistered={setStudentId} />
+          ) : (
+            <Chatbot
+              materiId={materi.id}
+              materiJudul={materi.judul}
+              onFirstInteraction={() => {
+                markMateriComplete(materi.id, 0);
+                setUnlocked(true);
+              }}
+            />
+          )}
         </div>
 
         <div className="mt-6">
