@@ -4,42 +4,15 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { FieldTexture } from "@/components/field-texture";
 import { Button } from "@/components/ui/button";
-import { Download, LockOpen } from "lucide-react";
-
-// Halaman export data penelitian Prof. Wawan.
-// SENGAJA tidak ditautkan di nav — hanya yang tahu URL + password.
-// Password (env EXPORT_PASSWORD) disimpan di sessionStorage (hilang saat
-// tab ditutup) dan dikirim via header, tidak pernah via URL.
-
-const PW_KEY = "histoar_export_pw";
+import { Download, LogIn, LogOut } from "lucide-react";
+import { supabaseAuth } from "@/lib/supabase-client";
 
 const FILES = [
-  {
-    jenis: "rekap",
-    judul: "Rekap per siswa",
-    deskripsi:
-      "1 baris per siswa: identitas, jumlah chat per materi, skor quiz akhir. Buka langsung di Excel.",
-  },
-  {
-    jenis: "siswa",
-    judul: "Detail siswa",
-    deskripsi: "Dump identitas + waktu persetujuan (consent_at).",
-  },
-  {
-    jenis: "chat",
-    judul: "Detail chat",
-    deskripsi: "Tiap pesan chatbot beridentitas + nama siswa (bukan UUID).",
-  },
-  {
-    jenis: "quiz",
-    judul: "Detail quiz",
-    deskripsi: "Tiap attempt + jawaban per-butir (kolom answers).",
-  },
-  {
-    jenis: "anonim",
-    judul: "Chat anonim",
-    deskripsi: "Chat tanpa identitas (landing + data lama), terpisah.",
-  },
+  { jenis: "rekap", judul: "Rekap per siswa", deskripsi: "1 baris per siswa: identitas, jumlah chat per materi, skor quiz akhir." },
+  { jenis: "siswa", judul: "Detail siswa", deskripsi: "Identitas + waktu persetujuan (consent_at)." },
+  { jenis: "chat", judul: "Detail chat", deskripsi: "Tiap pesan chatbot beridentitas + nama siswa." },
+  { jenis: "quiz", judul: "Detail quiz", deskripsi: "Tiap attempt + jawaban per-butir." },
+  { jenis: "anonim", judul: "Chat anonim", deskripsi: "Chat tanpa identitas, terpisah dari chat siswa." },
 ] as const;
 
 export const Route = createFileRoute("/rekap")({
@@ -59,98 +32,82 @@ function filenameFromHeader(disposition: string | null, fallback: string) {
 }
 
 function RekapPage() {
-  // sessionStorage HANYA ada di browser. Baca di useEffect supaya SSR
-  // Vercel tidak crash (ReferenceError) dan tidak hydration mismatch
-  // (pola sama seperti MateriGrid: render server = kosong, isi saat mount).
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [unlocked, setUnlocked] = useState(false);
-  useEffect(() => {
-    const saved = sessionStorage.getItem(PW_KEY);
-    if (saved === null) return;
-    // Restore sesi lama tetap wajib verifikasi ulang ke server.
-    verifyPassword(saved).then((ok) => {
-      if (ok) {
-        setPassword(saved);
-        setUnlocked(true);
-      } else {
-        sessionStorage.removeItem(PW_KEY);
-      }
-    });
-  }, []);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
-  const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
 
-  // Password TIDAK PERNAH dipercaya dari client: tombol unduh hanya muncul
-  // setelah server menjawab 200 pada /api/export?jenis=ping.
-  async function verifyPassword(pw: string): Promise<boolean> {
-    try {
-      const res = await fetch("/api/export?jenis=ping", {
-        headers: { "x-export-password": pw },
-      });
-      return res.ok;
-    } catch {
-      return false;
-    }
-  }
-
-  async function savePassword(e: React.FormEvent) {
-    e.preventDefault();
-    const pw = password.trim();
-    if (!pw || checking) return;
-    setChecking(true);
-    setError("");
-    const ok = await verifyPassword(pw);
-    setChecking(false);
-    if (!ok) {
-      setError("Password salah. Coba lagi.");
+  useEffect(() => {
+    if (!supabaseAuth) {
+      setError("Supabase Auth belum dikonfigurasi di frontend.");
+      setChecking(false);
       return;
     }
-    sessionStorage.setItem(PW_KEY, pw);
-    setPassword(pw);
-    setUnlocked(true);
+
+    supabaseAuth.auth.getUser().then(({ data }) => {
+      setLoggedIn(Boolean(data.user && !data.user.is_anonymous));
+      setChecking(false);
+    });
+
+    const { data: listener } = supabaseAuth.auth.onAuthStateChange((_event, session) => {
+      setLoggedIn(Boolean(session?.user && !session.user.is_anonymous));
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    if (!supabaseAuth || checking) return;
+    setChecking(true);
+    setError("");
+    const { error: loginError } = await supabaseAuth.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setChecking(false);
+    if (loginError) {
+      setError(loginError.message || "Login gagal. Periksa email dan password.");
+      return;
+    }
+    setPassword("");
   }
 
-  function logout() {
-    sessionStorage.removeItem(PW_KEY);
+  async function logout() {
+    await supabaseAuth?.auth.signOut();
+    setLoggedIn(false);
     setPassword("");
-    setUnlocked(false);
   }
 
   async function download(jenis: string) {
-    const pw = sessionStorage.getItem(PW_KEY) ?? "";
+    if (!supabaseAuth) return;
     setBusy(jenis);
     setError("");
     try {
-      const res = await fetch(`/api/export?jenis=${jenis}`, {
-        headers: { "x-export-password": pw },
+      const { data: sessionData } = await supabaseAuth.auth.getSession();
+      const token = sessionData.session?.access_token;
+      if (!token) {
+        setLoggedIn(false);
+        setError("Sesi login sudah habis. Masuk lagi.");
+        return;
+      }
+
+      const res = await fetch(`/api/export-auth?jenis=${jenis}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
         const json = await res.json().catch(() => null);
-        const msg =
-          typeof json?.error === "string"
-            ? json.error
-            : `Gagal mengunduh (${res.status}).`;
-        if (res.status === 401) {
-          logout();
-          setError("Password salah atau berubah. Masukkan ulang.");
-        } else if (res.status === 404) {
-          setError(
-            "Export sedang nonaktif (kill-switch). Nyalakan EXPORT_ENABLED di server dulu.",
-          );
-        } else {
-          setError(msg);
-        }
+        setError(typeof json?.error === "string" ? json.error : `Gagal mengunduh (${res.status}).`);
+        if (res.status === 401) setLoggedIn(false);
         return;
       }
+
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = filenameFromHeader(
-        res.headers.get("content-disposition"),
-        `histoar-${jenis}.csv`,
-      );
+      a.download = filenameFromHeader(res.headers.get("content-disposition"), `histoar-${jenis}.csv`);
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -167,41 +124,20 @@ function RekapPage() {
       <FieldTexture />
       <Nav />
       <div className="relative z-10 mx-auto max-w-3xl px-6 pt-32 pb-24">
-        <span className="catalog-label text-accent-foreground">
-          Penelitian · Internal
-        </span>
-        <h1 className="mt-3 font-display text-3xl font-medium tracking-tight sm:text-4xl">
-          Rekap Data Penelitian
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-          Unduh data siswa, diskusi chatbot, dan quiz akhir sebagai CSV siap
-          olah di Excel/SPSS.
-        </p>
+        <span className="catalog-label text-accent-foreground">Penelitian · Internal</span>
+        <h1 className="mt-3 font-display text-3xl font-medium tracking-tight sm:text-4xl">Rekap Data Penelitian</h1>
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">Unduh data langsung dari Supabase sebagai CSV terbaru saat tombol ditekan.</p>
 
-        {!unlocked ? (
-          <form
-            onSubmit={savePassword}
-            className="mt-8 w-full max-w-md rounded-3xl border border-border bg-card p-6 sm:p-8"
-          >
-            <h2 className="font-display text-lg font-medium">
-              Masukkan password export
-            </h2>
-            <div className="mt-4 flex gap-2">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password dari peneliti"
-                autoComplete="off"
-                className="flex-1 rounded-full border border-border bg-background/40 px-4 py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50"
-              />
-              <Button
-                type="submit"
-                disabled={checking}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                <LockOpen className="h-4 w-4" />
-                {checking ? "Memeriksa…" : ""}
+        {!loggedIn ? (
+          <form onSubmit={login} className="mt-8 w-full max-w-md rounded-3xl border border-border bg-card p-6 sm:p-8">
+            <h2 className="font-display text-lg font-medium">Masuk untuk export</h2>
+            <p className="mt-1 text-xs text-muted-foreground">Gunakan akun Supabase Auth yang diberi akses export.</p>
+            <div className="mt-5 space-y-3">
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" autoComplete="username" className="w-full rounded-full border border-border bg-background/40 px-4 py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50" />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" autoComplete="current-password" className="w-full rounded-full border border-border bg-background/40 px-4 py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50" />
+              <Button type="submit" disabled={checking || !email || !password} className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+                <LogIn className="h-4 w-4" />
+                {checking ? "Memeriksa…" : "Masuk"}
               </Button>
             </div>
             {error && <p className="mt-3 text-xs text-destructive">{error}</p>}
@@ -209,36 +145,20 @@ function RekapPage() {
         ) : (
           <div className="mt-8 flex flex-col gap-3">
             {FILES.map((f) => (
-              <div
-                key={f.jenis}
-                className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 sm:flex-row sm:items-center"
-              >
+              <div key={f.jenis} className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 sm:flex-row sm:items-center">
                 <div className="flex-1">
-                  <div className="font-display text-base font-medium">
-                    {f.judul}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {f.deskripsi}
-                  </div>
+                  <div className="font-display text-base font-medium">{f.judul}</div>
+                  <div className="text-sm text-muted-foreground">{f.deskripsi}</div>
                 </div>
-                <Button
-                  onClick={() => download(f.jenis)}
-                  disabled={busy !== null}
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                >
+                <Button onClick={() => download(f.jenis)} disabled={busy !== null} className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
                   <Download className="h-4 w-4" />
                   {busy === f.jenis ? "Mengunduh…" : "Unduh CSV"}
                 </Button>
               </div>
             ))}
-
             {error && <p className="text-xs text-destructive">{error}</p>}
-
-            <button
-              onClick={logout}
-              className="mt-2 self-start text-sm text-muted-foreground hover:text-foreground"
-            >
-              Keluar (lupakan password di tab ini)
+            <button onClick={logout} className="mt-2 flex items-center gap-2 self-start text-sm text-muted-foreground hover:text-foreground">
+              <LogOut className="h-4 w-4" /> Keluar
             </button>
           </div>
         )}
