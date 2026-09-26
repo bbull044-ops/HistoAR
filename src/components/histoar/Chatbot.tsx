@@ -45,7 +45,7 @@ export function Chatbot({
           ? `Mantap, nilai kamu sempurna (${score}/${total})! Sekarang kamu bebas mengeksplorasi sejarah lewat HistoAI. Ada yang mau kamu tanyakan?`
           : `Kamu dapat skor ${score}/${total}. Kamu bisa membahas soal yang masih kurang pas atau mengeksplorasi pertanyaan sejarah lain lewat HistoAI.`;
     } else {
-      pembuka = `Kamu sudah menjelajahi materi "${materiJudul}". Sekarang eksplorasi lebih dalam lewat HistoAI — tanyakan apa saja yang masih bikin penasaran.`;
+      pembuka = `Kamu sudah menjelajahi materi "${materiJudul}". Sekarang eksplorasi lebih dalam lewat HistoAI — tanyakan apa saja seputar sejarah yang masih bikin penasaran.`;
     }
     setMessages([{ role: "bot", text: pembuka }]);
   }, [materiJudul, score, total]);
@@ -190,7 +190,7 @@ export function Chatbot({
           disabled={sending}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Eksplorasi sejarah dengan HistoAI..."
+          placeholder="Tanya sejarah dengan HistoAI... (non-sejarah ditolak)"
           className="flex-1 rounded-full border border-border bg-background/40 px-4 py-2 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50"
         />
         <button

@@ -101,7 +101,7 @@ function DiskusiPage() {
               </span>
               <p className="mt-2 text-xs text-muted-foreground">
                 Chat dulu dengan HistoAI minimal satu kali untuk membuka langkah
-                berikutnya.
+                berikutnya. HistoAI hanya menjawab pertanyaan sejarah.
               </p>
             </>
           )}
