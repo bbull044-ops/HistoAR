@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { getExportSessionFromRequest } from "@/lib/export-session";
 import materiData from "@/data/materi.json";
 import type { MateriData } from "@/lib/histoar-types";
 import { csvFile } from "@/lib/csv";
@@ -32,17 +33,8 @@ export const Route = createFileRoute("/api/export-auth")({
     handlers: {
       GET: async ({ request }) => {
         try {
-          const auth = request.headers.get("authorization");
-          const token = auth?.startsWith("Bearer ") ? auth.slice(7) : "";
-          if (!token) return Response.json({ error: "Belum login." }, { status: 401 });
-
-          const supabase = getSupabaseServer();
-          const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-          if (authError || !user || user.is_anonymous || !user.email) return Response.json({ error: "Sesi login tidak valid." }, { status: 401 });
-
-          const { data: access, error: accessError } = await supabase.from("export_access").select("enabled").eq("email", user.email.toLowerCase()).maybeSingle();
-          if (accessError) throw new Error(`Gagal memeriksa akses export: ${accessError.message}`);
-          if (!access?.enabled) return Response.json({ error: "Akun ini tidak punya akses export." }, { status: 403 });
+          const session = getExportSessionFromRequest(request);
+          if (!session) return Response.json({ error: "Belum login atau sesi sudah habis." }, { status: 401 });
 
           const url = new URL(request.url);
           const jenis = url.searchParams.get("jenis") as Jenis | null;
