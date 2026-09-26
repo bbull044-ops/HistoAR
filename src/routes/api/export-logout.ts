@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EXPORT_SESSION_COOKIE, exportSessionCookie } from "@/lib/export-session";
+import { exportSessionCookie } from "@/lib/export-session";
 
 export const Route = createFileRoute("/api/export-logout")({
   server: {
