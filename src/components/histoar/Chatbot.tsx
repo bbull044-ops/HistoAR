@@ -69,11 +69,6 @@ export function Chatbot({
     setMessages((m) => [...m, { role: "user", text }]);
     setInput("");
 
-    if (!hasInteracted) {
-      setHasInteracted(true);
-      onFirstInteraction();
-    }
-
     setSending(true);
     setSources([]);
     setMessages((m) => [...m, { role: "bot", text: "..." }]);
@@ -94,6 +89,11 @@ export function Chatbot({
       const replyText = !res.ok
         ? json.error?.message || json.error || "Terjadi kesalahan."
         : json.reply;
+
+      if (res.ok && !hasInteracted) {
+        setHasInteracted(true);
+        onFirstInteraction();
+      }
 
       setSources(Array.isArray(json.sources) ? json.sources : []);
       setMessages((m) => {
