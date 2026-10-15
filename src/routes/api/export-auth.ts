@@ -65,7 +65,7 @@ export const Route = createFileRoute("/api/export-auth")({
           for (const a of attempts) { if (a.materi_id !== "final") continue; const arr = finalsByStudent.get(a.student_id) ?? []; arr.push(a); finalsByStudent.set(a.student_id, arr); }
 
           const header = ["nama", "kelas", "sekolah", "consent_at", ...ordered.map((m) => `chat_${m.id}`), "chat_total", "materi_diskusi", "quiz_skor", "quiz_total", "quiz_tanggal", "quiz_attempts"];
-          const rows = students.map((s) => { const list = chatsByStudent.get(s.id) ?? []; const perMateri = ordered.map((m) => list.filter((c) => c.materi_id === m.id).length); const finals = finalsByStudent.get(s.id) ?? []; const latest = finals[finals.length - 1]; return [s.nama, s.kelas, s.sekolah, s.consent_at, ...perMateri, list.length, new Set(list.map((c) => c.materi_id)).size, latest?.score ?? "", latest?.total ?? "", latest?.finished_at ?? "", finals.length]; });
+          const rows = students.map((s) => { const list = chatsByStudent.get(s.id) ?? []; const perMateri = ordered.map((m) => list.some((c) => c.materi_id === m.id) ? 1 : 0); const finals = finalsByStudent.get(s.id) ?? []; const latest = finals[finals.length - 1]; const materiDiskusi = perMateri.reduce((total, value) => total + value, 0); return [s.nama, s.kelas, s.sekolah, s.consent_at, ...perMateri, list.length, materiDiskusi, latest?.score ?? "", latest?.total ?? "", latest?.finished_at ?? "", finals.length]; });
           return csvResponse(`histoar-rekap-${today}.csv`, csvFile(header, rows));
         } catch (err) {
           console.error("/api/export-auth error", err);

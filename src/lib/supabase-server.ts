@@ -51,20 +51,25 @@ export type ChatLogRow = {
  * (pakai `void saveChatPair(...)`). Tidak pernah throw: gagal = log saja,
  * supaya pencatatan tidak mengganggu balasan AI ke siswa.
  */
-export async function saveChatPair(rows: ChatLogRow[]): Promise<void> {
+export async function saveChatPair(rows: ChatLogRow[]): Promise<boolean> {
   try {
     const clean = rows
       .filter(
         (r) => typeof r.content === "string" && r.content.trim().length > 0,
       )
       .map((r) => ({ ...r, content: r.content.slice(0, 8000) }));
-    if (clean.length === 0) return;
+    if (clean.length === 0) return true;
     const { error } = await getSupabaseServer()
       .from("chat_messages")
       .insert(clean);
-    if (error) console.error("Gagal menyimpan chat:", error);
+    if (error) {
+      console.error("Gagal menyimpan chat:", error);
+      return false;
+    }
+    return true;
   } catch (err) {
     console.error("Gagal menyimpan chat:", err);
+    return false;
   }
 }
 

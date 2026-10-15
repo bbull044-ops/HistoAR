@@ -158,7 +158,7 @@ export const Route = createFileRoute("/api/chat")({
           // Hemat token + konsisten dengan landing. Sapaan dikecualikan.
           if (!isSapaan(pertanyaan) && isNonSejarahHeuristic(pertanyaan)) {
             const reply = penolakanRedirect(judulAktif);
-            void saveChatPair([
+            const saved = await saveChatPair([
               {
                 student_id: body.student_id || null,
                 materi_id: body.materi_id || null,
@@ -174,6 +174,12 @@ export const Route = createFileRoute("/api/chat")({
                 content: reply,
               },
             ]);
+            if (!saved) {
+              return Response.json(
+                { error: "Chat belum berhasil disimpan. Coba kirim ulang." },
+                { status: 503 },
+              );
+            }
             return Response.json({ reply, sources: [] });
           }
 
@@ -196,7 +202,7 @@ export const Route = createFileRoute("/api/chat")({
           // Simpan pertanyaan siswa DULUAN (sebelum panggil AI): kalau KIE
           // gagal (key salah, param ditolak, timeout), jejak pertanyaan tetap
           // tercatat dan bisa didiagnosis dari data. Balasan AI menyusul di bawah.
-          void saveChatPair([
+          const userSaved = await saveChatPair([
             {
               student_id: body.student_id || null,
               materi_id: body.materi_id || null,
@@ -205,6 +211,12 @@ export const Route = createFileRoute("/api/chat")({
               content: pertanyaan,
             },
           ]);
+          if (!userSaved) {
+            return Response.json(
+              { error: "Pertanyaan belum berhasil disimpan. Coba kirim ulang." },
+              { status: 503 },
+            );
+          }
 
           const response = await fetch(API_URL, {
             method: "POST",
@@ -261,7 +273,7 @@ export const Route = createFileRoute("/api/chat")({
 
           // Balasan AI menyusul (pertanyaan sudah tersimpan di atas).
           // Fire-and-forget, tidak pernah throw.
-          void saveChatPair([
+          const assistantSaved = await saveChatPair([
             {
               student_id: body.student_id || null,
               materi_id: body.materi_id || null,
@@ -270,6 +282,12 @@ export const Route = createFileRoute("/api/chat")({
               content: reply,
             },
           ]);
+          if (!assistantSaved) {
+            return Response.json(
+              { error: "Balasan AI dibuat, tetapi belum berhasil disimpan. Coba kirim ulang." },
+              { status: 503 },
+            );
+          }
 
           return Response.json({
             reply,
