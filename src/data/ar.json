@@ -658,7 +658,18 @@
           "zoom": 0.85
         },
         "introAudio": "/assets/audio/situs-megalitik/bali-dan-nusa-tenggara/intro.mp3",
-        "hotspots": []
+        "hotspots": [
+          {
+            "id": "gilimanuk",
+            "label": "Gilimanuk",
+            "model": "/assets/models/situs-megalitik/bali-dan-nusa-tenggara/gilimanuk.glb",
+            "audio": "/assets/audio/situs-megalitik/bali-dan-nusa-tenggara/intro.mp3",
+            "teks": "Situs ini menyimpan ratusan kubur batu dan sarkofagus khas Bali dengan hiasan kepala manusia dan hewan. Bekal kubur berupa manik-manik dan perhiasan logam menunjukkan bahwa Gilimanuk adalah situs peralihan antara Neolitikum akhir dan Perundagian awal.",
+            "view": {
+              "zoom": 0.85
+            }
+          }
+        ]
       }
     ],
     "maxZoom": 4
@@ -821,7 +832,18 @@
           "zoom": 0.85
         },
         "introAudio": "/assets/audio/situs-megalitik/toraja/intro.mp3",
-        "hotspots": []
+        "hotspots": [
+          {
+            "id": "toraja",
+            "label": "Situs Toraja",
+            "model": "/assets/models/situs-megalitik/toraja/toraja.glb",
+            "audio": "/assets/audio/situs-megalitik/toraja/intro.mp3",
+            "teks": "Tradisi megalitik Toraja adalah salah satu yang paling terkenal di dunia. Batu Simbuang didirikan pada upacara pemakaman Rambu Solo untuk mengenang orang yang meninggal. Makam-makam batu di Londa dan Kete Kesu berupa lubang batu yang dipahat di tebing, tempat menyimpan tau-tau (patung kayu yang menyerupai orang yang meninggal). Praktik penguburan dua tahap yang khas Perundagian masih hidup di Toraja sampai sekarang.",
+            "view": {
+              "zoom": 0.85
+            }
+          }
+        ]
       }
     ],
     "maxZoom": 4
